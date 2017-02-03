@@ -71,9 +71,8 @@ class FakeDeviceOsModule(object):
 
 
 class LinuxTest(unittest.TestCase):
-  fs = fake_filesystem.FakeFilesystem()
-
   def setUp(self):
+    self.fs = fake_filesystem.FakeFilesystem()
     self.fs.CreateDirectory('/sys/class/hidraw')
 
   def tearDown(self):
@@ -87,6 +86,7 @@ class LinuxTest(unittest.TestCase):
       fake_open = fake_filesystem.FakeFileOpen(self.fs)
       with mock.patch.object(__builtin__, 'open', fake_open):
         devs = list(linux.LinuxHidDevice.Enumerate())
+        devs = sorted(devs, key=lambda(k):(k['vendor_id']))
 
         self.assertEquals(len(devs), 2)
         self.assertEquals(devs[0]['vendor_id'], 0x046d)
