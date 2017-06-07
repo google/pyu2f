@@ -1,5 +1,7 @@
 # pyu2f
 
+[![Build Status](https://travis-ci.org/google/pyu2f.svg?branch=master)](https://travis-ci.org/google/pyu2f)
+
 pyu2f is a python based U2F host library for Linux, Windows, and MacOS. It
 provides functionality for interacting with a U2F device over USB.
 
