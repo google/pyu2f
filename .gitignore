@@ -4,3 +4,6 @@
 .tox/
 .cache/
 
+build/
+dist/
+*.egg-info
