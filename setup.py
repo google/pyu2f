@@ -26,7 +26,7 @@ except ImportError:
 
 setuptools.setup(
     name='pyu2f',
-    version='0.1',
+    version='0.1.0',
     description='U2F host library for interacting with a U2F device over USB.',
     long_description='pyu2f is a python based U2F host library for Linux, '
                      'Windows, and MacOS. It provides functionality for '
