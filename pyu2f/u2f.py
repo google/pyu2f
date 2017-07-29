@@ -115,7 +115,7 @@ class U2FInterface(object):
         raise errors.U2FError(errors.U2FError.BAD_REQUEST, e)
 
     # Now register the new key
-    for _ in range(10):
+    for _ in range(30):
       try:
         resp = self.security_key.CmdRegister(challenge_param, app_param)
         return model.RegisterResponse(resp, client_data)
@@ -143,9 +143,8 @@ class U2FInterface(object):
       format.
 
     Raises:
-      U2FError: There was some kind of problem with registration (e.g.
-        the device was already registered or there was a timeout while
-        waiting for the test of user presence.)
+      U2FError: There was some kind of problem with authentication (e.g.
+        there was a timeout while waiting for the test of user presence.)
     """
     client_data = model.ClientData(model.ClientData.TYP_AUTHENTICATION,
                                    challenge, self.origin)
@@ -156,7 +155,7 @@ class U2FInterface(object):
       try:
         if key.version != 'U2F_V2':
           continue
-        for _ in range(10):
+        for _ in range(30):
           try:
             resp = self.security_key.CmdAuthenticate(challenge_param, app_param,
                                                      key.key_handle)
