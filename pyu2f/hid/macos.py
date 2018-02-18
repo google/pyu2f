@@ -428,7 +428,7 @@ class MacOsHidDevice(base.HidDevice):
 
   def Read(self):
     """See base class."""
-    return self.read_queue.get(timeout=sys.maxint)
+    return self.read_queue.get(timeout=sys.maxsize)
 
   def __del__(self):
     # Unregister the callback
