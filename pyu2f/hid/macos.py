@@ -13,10 +13,13 @@
 # limitations under the License.
 
 """Implements HID device interface on MacOS using IOKit and HIDManager."""
+from future import standard_library
+standard_library.install_aliases()
+from builtins import range
 import ctypes
 import ctypes.util
 import logging
-import Queue
+import queue
 import sys
 import threading
 
@@ -371,7 +374,7 @@ class MacOsHidDevice(base.HidDevice):
                               .format(result))
 
     # Create read queue
-    self.read_queue = Queue.Queue()
+    self.read_queue = queue.Queue()
 
     # Create and start read thread
     self.run_loop_ref = None

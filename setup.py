@@ -36,7 +36,9 @@ setuptools.setup(
     author_email='pyu2f-team@google.com',
     # Contained modules and scripts.
     packages=setuptools.find_packages(exclude=["pyu2f.tests", "pyu2f.tests.*"]),
-    install_requires=[],
+    install_requires=[
+        'future',
+    ],
     tests_require=[
         'unittest2>=0.5.1',
         'pyfakefs>=2.4',

@@ -32,7 +32,7 @@ class ModelTest(unittest.TestCase):
     cd = model.ClientData(model.ClientData.TYP_REGISTRATION, 'ABCD',
                           'somemachine')
     obj = json.loads(cd.GetJson())
-    self.assertEquals(len(obj.keys()), 3)
+    self.assertEquals(len(list(obj.keys())), 3)
     self.assertEquals(obj['typ'], model.ClientData.TYP_REGISTRATION)
     self.assertEquals(obj['challenge'], 'QUJDRA')
     self.assertEquals(obj['origin'], 'somemachine')
@@ -41,7 +41,7 @@ class ModelTest(unittest.TestCase):
     cd = model.ClientData(model.ClientData.TYP_AUTHENTICATION, 'ABCD',
                           'somemachine')
     obj = json.loads(cd.GetJson())
-    self.assertEquals(len(obj.keys()), 3)
+    self.assertEquals(len(list(obj.keys())), 3)
     self.assertEquals(obj['typ'], model.ClientData.TYP_AUTHENTICATION)
     self.assertEquals(obj['challenge'], 'QUJDRA')
     self.assertEquals(obj['origin'], 'somemachine')

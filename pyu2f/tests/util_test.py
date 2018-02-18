@@ -14,6 +14,7 @@
 
 """Tests for pyu2f.tests.lib.util."""
 
+from builtins import range
 import sys
 
 from pyu2f.tests.lib import util
@@ -48,7 +49,7 @@ class UtilTest(unittest.TestCase):
                                                          for _ in range(54)])
 
   def testFragmentedApdu(self):
-    dev = util.FakeHidDevice(cid_to_allocate=None, msg_reply=range(85, 0, -1))
+    dev = util.FakeHidDevice(cid_to_allocate=None, msg_reply=list(range(85, 0, -1)))
     dev.Write([0, 0, 0, 1, 0x83, 0, 100] + [x for x in range(57)])
     dev.Write([0, 0, 0, 1, 0] + [x for x in range(57, 100)])
     self.assertEquals(

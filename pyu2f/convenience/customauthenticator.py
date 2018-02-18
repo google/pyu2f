@@ -14,6 +14,7 @@
 
 """Class to offload the end to end flow of U2F signing."""
 
+from builtins import str
 import base64
 import hashlib
 import json

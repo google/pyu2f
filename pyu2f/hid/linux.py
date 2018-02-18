@@ -13,7 +13,10 @@
 # limitations under the License.
 
 """Implements raw HID interface on Linux using SysFS and device files."""
+from __future__ import division
 
+from builtins import map
+from past.utils import old_div
 import os
 import struct
 
@@ -118,14 +121,14 @@ def ParseReportDescriptor(rd, desc):
 
     if key & REPORT_DESCRIPTOR_KEY_MASK == INPUT_ITEM:
       if report_count and report_size:
-        byte_length = (report_count * report_size) / 8
+        byte_length = old_div((report_count * report_size), 8)
         desc.internal_max_in_report_len = max(
             desc.internal_max_in_report_len, byte_length)
         report_count = None
         report_size = None
     elif key & REPORT_DESCRIPTOR_KEY_MASK == OUTPUT_ITEM:
       if report_count and report_size:
-        byte_length = (report_count * report_size) / 8
+        byte_length = old_div((report_count * report_size), 8)
         desc.internal_max_out_report_len = max(
             desc.internal_max_out_report_len, byte_length)
         report_count = None
@@ -221,5 +224,5 @@ class LinuxHidDevice(base.HidDevice):
   def Read(self):
     """See base class."""
     raw_in = os.read(self.dev, self.GetInReportDataLength())
-    decoded_in = map(ord, raw_in)
+    decoded_in = list(map(ord, raw_in))
     return decoded_in
