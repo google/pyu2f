@@ -107,8 +107,8 @@ class CustomAuthenticator(baseauthenticator.BaseAuthenticator):
     # Handle response
     key_challenge_pair = (response['keyHandle'], response['challengeHash'])
     client_data_json = client_data_map[key_challenge_pair]
-    return self._BuildAuthenticatorResponse(app_id, client_data_json,
-                                            response)
+    client_data = client_data_json.encode()
+    return self._BuildAuthenticatorResponse(app_id, client_data, response)
 
   def IsAvailable(self):
     """See base class."""
@@ -118,10 +118,10 @@ class CustomAuthenticator(baseauthenticator.BaseAuthenticator):
     """Builds a JSON request in the form that the plugin expects."""
     client_data_map = {}
     encoded_challenges = []
-    app_id_hash_encoded = base64.urlsafe_b64encode(self._SHA256(app_id))
+    app_id_hash_encoded = self._base64encode(self._SHA256(app_id))
     for challenge_item in challenge_data:
       key = challenge_item['key']
-      key_handle_encoded = base64.urlsafe_b64encode(key.key_handle)
+      key_handle_encoded = self._base64encode(key.key_handle)
 
       raw_challenge = challenge_item['challenge']
 
@@ -130,7 +130,7 @@ class CustomAuthenticator(baseauthenticator.BaseAuthenticator):
           raw_challenge,
           origin).GetJson()
 
-      challenge_hash_encoded = base64.urlsafe_b64encode(
+      challenge_hash_encoded = self._base64encode(
           self._SHA256(client_data_json))
 
       # Populate challenges list
@@ -156,7 +156,7 @@ class CustomAuthenticator(baseauthenticator.BaseAuthenticator):
 
   def _BuildAuthenticatorResponse(self, app_id, client_data, plugin_response):
     """Builds the response to return to the caller."""
-    encoded_client_data = base64.urlsafe_b64encode(client_data)
+    encoded_client_data = self._base64encode(client_data)
     signature_data = str(plugin_response['signatureData'])
     key_handle = str(plugin_response['keyHandle'])
 
@@ -173,7 +173,7 @@ class CustomAuthenticator(baseauthenticator.BaseAuthenticator):
     # Calculate length of input
     input_length = len(input_json)
     length_bytes_le = struct.pack('<I', input_length)
-    request = length_bytes_le + input_json
+    request = length_bytes_le + input_json.encode()
 
     # Call plugin
     sign_process = subprocess.Popen(cmd,
@@ -235,5 +235,9 @@ class CustomAuthenticator(baseauthenticator.BaseAuthenticator):
   def _SHA256(self, string):
     """Helper method to perform SHA256."""
     md = hashlib.sha256()
-    md.update(string)
+    md.update(string.encode())
     return md.digest()
+
+  def _base64encode(self, bytes_data):
+      """Helper method to base64 encode and return str result."""
+      return base64.urlsafe_b64encode(bytes_data).decode()

@@ -48,7 +48,8 @@ class ClientData(object):
     # Python does not natively support a paddingless encoding, so we simply
     # remove the padding from the end of the string.
     server_challenge_b64 = base64.urlsafe_b64encode(
-        self.raw_server_challenge).rstrip('=')
+        self.raw_server_challenge).decode()
+    server_challenge_b64 = server_challenge_b64.rstrip('=')
     return json.dumps({'typ': self.typ,
                        'challenge': server_challenge_b64,
                        'origin': self.origin}, sort_keys=True)

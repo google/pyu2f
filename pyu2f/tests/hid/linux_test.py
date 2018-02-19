@@ -14,12 +14,18 @@
 
 """Tests for pyu2f.hid.linux."""
 
-import __builtin__  # for mock.patch.object
 import base64
 import os
 import sys
 
 import mock
+
+# Since the builtins name changed between Python 2 and Python 3, we have to
+# make sure to mock the corret one.
+if sys.version_info[0] > 2:
+  import builtins as py_builtins
+else:
+  import __builtin__ as py_builtins
 
 from pyu2f.hid import linux
 
@@ -84,7 +90,7 @@ class LinuxTest(unittest.TestCase):
     AddDevice(self.fs, 'hidraw2', 'Yubico U2F', 0x1050, 0x0407, YUBICO_RD)
     with mock.patch.object(linux, 'os', fake_filesystem.FakeOsModule(self.fs)):
       fake_open = fake_filesystem.FakeFileOpen(self.fs)
-      with mock.patch.object(__builtin__, 'open', fake_open):
+      with mock.patch.object(py_builtins, 'open', fake_open):
         devs = list(linux.LinuxHidDevice.Enumerate())
         devs = sorted(devs, key=lambda k:(k['vendor_id']))
 
@@ -100,7 +106,7 @@ class LinuxTest(unittest.TestCase):
     AddDevice(self.fs, 'hidraw1', 'Yubico U2F', 0x1050, 0x0407, YUBICO_RD)
     fake_open = fake_filesystem.FakeFileOpen(self.fs)
     # The open() builtin is used to read from the fake sysfs
-    with mock.patch.object(__builtin__, 'open', fake_open):
+    with mock.patch.object(py_builtins, 'open', fake_open):
       # The os.open function is used to interact with the low
       # level device.  We don't want to use fakefs for that.
       fake_dev_os = FakeDeviceOsModule()

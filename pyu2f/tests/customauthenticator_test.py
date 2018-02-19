@@ -35,7 +35,7 @@ else:
 SIGN_SUCCESS = {
     'app_id': 'test_app_id',
     'app_id_hash_encoded': 'TnMguTdPn7OcIO9f-0CgfQdY254bvc6WR-DTPZnJ49w=',
-    'challenge': 'asdfasdf',
+    'challenge': 'asdfasdf'.encode(),
     'challenge_hash_encoded': 'qhJtbTQvsU0BmLLpDWes-3zFGbegR2wp1mv5BJ2BwC0=',
     'key_handle_encoded': ('iBbl9-VYt-XSdWeHVNX-gfQcXGzlrAQ7BcngVNUxWijIQQlnZEI'
                            '4Vb0Bp2ydBCbIQu_5rNlKqPH6NK1TtnM7fA=='),
@@ -85,7 +85,7 @@ class CustomAuthenticatorTest(unittest.TestCase):
             'signatureData': SIGN_SUCCESS['signature_data_encoded']},
         'data': None
     }
-    valid_plugin_response_json = json.dumps(valid_plugin_response)
+    valid_plugin_response_json = json.dumps(valid_plugin_response).encode()
     valid_plugin_response_len = struct.pack('<I',
                                             len(valid_plugin_response_json))
 
@@ -166,7 +166,7 @@ class CustomAuthenticatorTest(unittest.TestCase):
                      return_value='gnubbyagent')
   def testPluginReturnsMalformedJson(self, os_get_method, popen_method):
     """Test when plugin returns non-json response."""
-    plugin_response = 'abc'
+    plugin_response = 'abc'.encode()
     plugin_response_len = struct.pack('<I', len(plugin_response))
 
     # process returns sign response in json
@@ -209,7 +209,7 @@ class CustomAuthenticatorTest(unittest.TestCase):
             'signatureData': SIGN_SUCCESS['signature_data_encoded']},
         'data': None
     }
-    plugin_response_json = json.dumps(valid_plugin_response)
+    plugin_response_json = json.dumps(valid_plugin_response).encode()
     plugin_response_len = struct.pack('<I', len(plugin_response_json))
 
     # process returns sign response in json
@@ -252,7 +252,7 @@ class CustomAuthenticatorTest(unittest.TestCase):
             'signatureData': SIGN_SUCCESS['signature_data_encoded']},
         'data': None
     }
-    plugin_response_json = json.dumps(valid_plugin_response)
+    plugin_response_json = json.dumps(valid_plugin_response).encode()
     plugin_response_len = struct.pack('<I', len(plugin_response_json))
 
     # process returns sign response in json
@@ -296,7 +296,7 @@ class CustomAuthenticatorTest(unittest.TestCase):
             'signatureData': SIGN_SUCCESS['signature_data_encoded']},
         'data': None
     }
-    plugin_response_json = json.dumps(valid_plugin_response)
+    plugin_response_json = json.dumps(valid_plugin_response).encode()
     plugin_response_len = struct.pack('<I', len(plugin_response_json))
 
     # process returns sign response in json
@@ -342,7 +342,7 @@ class CustomAuthenticatorTest(unittest.TestCase):
             'signatureData': SIGN_SUCCESS['signature_data_encoded']},
         'data': None
     }
-    plugin_response_json = json.dumps(valid_plugin_response)
+    plugin_response_json = json.dumps(valid_plugin_response).encode()
     plugin_response_len = struct.pack('<I', len(plugin_response_json))
 
     # process returns sign response in json
