@@ -39,8 +39,8 @@ class HardwareTest(unittest.TestCase):
     sk.CmdWink()
     mock_transport.SendWink.assert_called_once_with()
 
-    sk.CmdPing(bytearray('foo'))
-    mock_transport.SendPing.assert_called_once_with(bytearray('foo'))
+    sk.CmdPing(bytearray(b'foo'))
+    mock_transport.SendPing.assert_called_once_with(bytearray(b'foo'))
 
   def testRegisterInvalidParams(self):
     mock_transport = mock.MagicMock()
@@ -53,8 +53,8 @@ class HardwareTest(unittest.TestCase):
     mock_transport = mock.MagicMock()
     sk = hardware.SecurityKey(mock_transport)
 
-    challenge_param = '01234567890123456789012345678901'
-    app_param = '01234567890123456789012345678901'
+    challenge_param = b'01234567890123456789012345678901'
+    app_param = b'01234567890123456789012345678901'
 
     mock_transport.SendMsgBytes.return_value = bytearray(
         [0x01, 0x02, 0x90, 0x00])
@@ -70,8 +70,8 @@ class HardwareTest(unittest.TestCase):
     mock_transport = mock.MagicMock()
     sk = hardware.SecurityKey(mock_transport)
 
-    challenge_param = '01234567890123456789012345678901'
-    app_param = '01234567890123456789012345678901'
+    challenge_param = b'01234567890123456789012345678901'
+    app_param = b'01234567890123456789012345678901'
 
     mock_transport.SendMsgBytes.return_value = bytearray([0x69, 0x85])
 
@@ -83,10 +83,10 @@ class HardwareTest(unittest.TestCase):
     mock_transport = mock.MagicMock()
     sk = hardware.SecurityKey(mock_transport)
 
-    mock_transport.SendMsgBytes.return_value = bytearray('U2F_V2\x90\x00')
+    mock_transport.SendMsgBytes.return_value = bytearray(b'U2F_V2\x90\x00')
 
     reply = sk.CmdVersion()
-    self.assertEquals(reply, bytearray('U2F_V2'))
+    self.assertEquals(reply, bytearray(b'U2F_V2'))
     self.assertEquals(mock_transport.SendMsgBytes.call_count, 1)
     (sent_msg,), _ = mock_transport.SendMsgBytes.call_args
     self.assertEquals(sent_msg, bytearray(
@@ -98,10 +98,10 @@ class HardwareTest(unittest.TestCase):
 
     mock_transport.SendMsgBytes.side_effect = [
         bytearray([0x67, 0x00]),
-        bytearray('U2F_V2\x90\x00')]
+        bytearray(b'U2F_V2\x90\x00')]
 
     reply = sk.CmdVersion()
-    self.assertEquals(reply, bytearray('U2F_V2'))
+    self.assertEquals(reply, bytearray(b'U2F_V2'))
     self.assertEquals(mock_transport.SendMsgBytes.call_count, 2)
     (sent_msg,), _ = mock_transport.SendMsgBytes.call_args_list[0]
     self.assertEquals(len(sent_msg), 7)
@@ -126,9 +126,9 @@ class HardwareTest(unittest.TestCase):
     mock_transport = mock.MagicMock()
     sk = hardware.SecurityKey(mock_transport)
 
-    challenge_param = '01234567890123456789012345678901'
-    app_param = '01234567890123456789012345678901'
-    key_handle = '\x01\x02\x03\x04'
+    challenge_param = b'01234567890123456789012345678901'
+    app_param = b'01234567890123456789012345678901'
+    key_handle = b'\x01\x02\x03\x04'
 
     mock_transport.SendMsgBytes.return_value = bytearray(
         [0x01, 0x02, 0x90, 0x00])
@@ -146,9 +146,9 @@ class HardwareTest(unittest.TestCase):
     mock_transport = mock.MagicMock()
     sk = hardware.SecurityKey(mock_transport)
 
-    challenge_param = '01234567890123456789012345678901'
-    app_param = '01234567890123456789012345678901'
-    key_handle = '\x01\x02\x03\x04'
+    challenge_param = b'01234567890123456789012345678901'
+    app_param = b'01234567890123456789012345678901'
+    key_handle = b'\x01\x02\x03\x04'
 
     mock_transport.SendMsgBytes.return_value = bytearray(
         [0x01, 0x02, 0x90, 0x00])
@@ -169,9 +169,9 @@ class HardwareTest(unittest.TestCase):
     mock_transport = mock.MagicMock()
     sk = hardware.SecurityKey(mock_transport)
 
-    challenge_param = '01234567890123456789012345678901'
-    app_param = '01234567890123456789012345678901'
-    key_handle = '\x01\x02\x03\x04'
+    challenge_param = b'01234567890123456789012345678901'
+    app_param = b'01234567890123456789012345678901'
+    key_handle = b'\x01\x02\x03\x04'
 
     mock_transport.SendMsgBytes.return_value = bytearray([0x69, 0x85])
 
@@ -183,9 +183,9 @@ class HardwareTest(unittest.TestCase):
     mock_transport = mock.MagicMock()
     sk = hardware.SecurityKey(mock_transport)
 
-    challenge_param = '01234567890123456789012345678901'
-    app_param = '01234567890123456789012345678901'
-    key_handle = '\x01\x02\x03\x04'
+    challenge_param = b'01234567890123456789012345678901'
+    app_param = b'01234567890123456789012345678901'
+    key_handle = b'\x01\x02\x03\x04'
 
     mock_transport.SendMsgBytes.return_value = bytearray([0x6a, 0x80])
 
