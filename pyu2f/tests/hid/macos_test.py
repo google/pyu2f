@@ -131,8 +131,8 @@ class MacOsTest(unittest.TestCase):
 
     # Device read should return the callback data
     read_result = device.Read()
-    self.assertEquals(read_result, range(64), 'Read data should match data '
-                      'passed into the callback')
+    self.assertEquals(read_result, list(range(64)), 'Read data should match '
+                      'data passed into the callback')
 
 
 if __name__ == '__main__':
