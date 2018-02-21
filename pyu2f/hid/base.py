@@ -91,8 +91,8 @@ class DeviceDescriptor(object):
   product_string = None
   path = None
 
-  internal_max_in_report_len = None
-  internal_max_out_report_len = None
+  internal_max_in_report_len = 0
+  internal_max_out_report_len = 0
 
   def ToPublicDict(self):
     out = {}

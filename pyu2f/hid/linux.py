@@ -49,7 +49,8 @@ def GetValueLength(rd, pos):
     (key_size, data_len) where key_size is the number of bytes occupied by
     the key and data_len is the length of the value associated by the key.
   """
-  key = ord(rd[pos])
+  rd = bytearray(rd)
+  key = rd[pos]
   if key == LONG_ITEM_ENCODING:
     # If the key is tagged as a long item (0xfe), then the format is
     # [key (1 byte)] [data len (1 byte)] [item tag (1 byte)] [data (n # bytes)].
@@ -107,6 +108,8 @@ def ParseReportDescriptor(rd, desc):
   Returns:
     None
   """
+  rd = bytearray(rd)
+
   pos = 0
   report_count = None
   report_size = None
@@ -114,7 +117,7 @@ def ParseReportDescriptor(rd, desc):
   usage = None
 
   while pos < len(rd):
-    key = ord(rd[pos])
+    key = rd[pos]
 
     # First step, determine the value encoding (either long or short).
     key_size, value_length = GetValueLength(rd, pos)
@@ -156,16 +159,16 @@ def ParseReportDescriptor(rd, desc):
 
 
 def ParseUevent(uevent, desc):
-  lines = uevent.split('\n')
+  lines = uevent.split(b'\n')
   for line in lines:
     line = line.strip()
     if not line:
       continue
-    k, v = line.split('=')
-    if k == 'HID_NAME':
+    k, v = line.split(b'=')
+    if k == b'HID_NAME':
       desc.product_string = v.decode('utf8')
-    elif k == 'HID_ID':
-      _, vid, pid = v.split(':')
+    elif k == b'HID_ID':
+      _, vid, pid = v.split(b':')
       desc.vendor_id = int(vid, 16)
       desc.product_id = int(pid, 16)
 
