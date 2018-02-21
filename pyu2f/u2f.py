@@ -134,7 +134,7 @@ class U2FInterface(object):
 
     Args:
       app_id: The app_id to register the security key against.
-      challenge: Server challenge passed to the security key.
+      challenge: Server challenge passed to the security key as a bytes object.
       registered_keys: List of keys already registered for this app_id+user.
 
     Returns:
@@ -178,5 +178,5 @@ class U2FInterface(object):
 
   def InternalSHA256(self, string):
     md = hashlib.sha256()
-    md.update(string)
+    md.update(string.encode())
     return md.digest()

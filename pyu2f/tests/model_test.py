@@ -29,7 +29,7 @@ else:
 class ModelTest(unittest.TestCase):
 
   def testClientDataRegistration(self):
-    cd = model.ClientData(model.ClientData.TYP_REGISTRATION, 'ABCD',
+    cd = model.ClientData(model.ClientData.TYP_REGISTRATION, b'ABCD',
                           'somemachine')
     obj = json.loads(cd.GetJson())
     self.assertEquals(len(list(obj.keys())), 3)
@@ -38,7 +38,7 @@ class ModelTest(unittest.TestCase):
     self.assertEquals(obj['origin'], 'somemachine')
 
   def testClientDataAuth(self):
-    cd = model.ClientData(model.ClientData.TYP_AUTHENTICATION, 'ABCD',
+    cd = model.ClientData(model.ClientData.TYP_AUTHENTICATION, b'ABCD',
                           'somemachine')
     obj = json.loads(cd.GetJson())
     self.assertEquals(len(list(obj.keys())), 3)
@@ -48,7 +48,7 @@ class ModelTest(unittest.TestCase):
 
   def testClientDataInvalid(self):
     self.assertRaises(errors.InvalidModelError, model.ClientData, 'foobar',
-                      'ABCD', 'somemachine')
+                      b'ABCD', 'somemachine')
 
 
 if __name__ == '__main__':
