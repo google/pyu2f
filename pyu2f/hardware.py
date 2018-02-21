@@ -103,8 +103,8 @@ class SecurityKey(object):
       raise errors.InvalidRequestError()
     control = 0x07 if check_only else 0x03
 
-    body = bytearray(challenge_param + app_param + bytearray([len(key_handle)])
-                     + key_handle)
+    body = bytearray(challenge_param + app_param +
+                     bytearray([len(key_handle)]) + key_handle)
     response = self.InternalSendApdu(apdu.CommandApdu(
         0, apdu.CMD_AUTH, control, 0x00, body))
     response.CheckSuccessOrRaise()

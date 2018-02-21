@@ -35,7 +35,8 @@ def GetLocalU2FInterface(origin=socket.gethostname()):
   hid_transports = hidtransport.DiscoverLocalHIDU2FDevices()
   for t in hid_transports:
     try:
-      return U2FInterface(security_key=hardware.SecurityKey(transport=t), origin=origin)
+      return U2FInterface(security_key=hardware.SecurityKey(transport=t),
+                          origin=origin)
     except errors.UnsupportedVersionException:
       # Skip over devices that don't speak the proper version of the protocol.
       pass

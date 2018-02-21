@@ -34,7 +34,7 @@ class ClientData(object):
   TYP_REGISTRATION = 'navigator.id.finishEnrollment'
 
   def __init__(self, typ, raw_server_challenge, origin):
-    if typ not in  [ClientData.TYP_REGISTRATION, ClientData.TYP_AUTHENTICATION]:
+    if typ not in [ClientData.TYP_REGISTRATION, ClientData.TYP_AUTHENTICATION]:
       raise errors.InvalidModelError()
     self.typ = typ
     self.raw_server_challenge = raw_server_challenge

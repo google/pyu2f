@@ -21,6 +21,8 @@ all implementations built on interacting with file-like objects.
 
 
 from builtins import object
+
+
 class HidDevice(object):
   """Base class for all HID devices in this package."""
 

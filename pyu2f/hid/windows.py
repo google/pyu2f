@@ -49,6 +49,7 @@ elif platform.architecture()[0] == "32bit":
 else:
   raise errors.HidError("Unknown architecture: %s" % platform.architecture()[0])
 
+
 class DeviceInterfaceData(ctypes.Structure):
   _fields_ = [("cbSize", wintypes.DWORD),
               ("InterfaceClassGuid", GUID),

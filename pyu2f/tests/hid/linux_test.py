@@ -20,14 +20,14 @@ import sys
 
 import mock
 
+from pyu2f.hid import linux
+
 # Since the builtins name changed between Python 2 and Python 3, we have to
 # make sure to mock the corret one.
 if sys.version_info[0] > 2:
   import builtins as py_builtins
 else:
   import __builtin__ as py_builtins
-
-from pyu2f.hid import linux
 
 try:
   from pyfakefs import fake_filesystem  # pylint: disable=g-import-not-at-top
@@ -92,7 +92,7 @@ class LinuxTest(unittest.TestCase):
       fake_open = fake_filesystem.FakeFileOpen(self.fs)
       with mock.patch.object(py_builtins, 'open', fake_open):
         devs = list(linux.LinuxHidDevice.Enumerate())
-        devs = sorted(devs, key=lambda k:(k['vendor_id']))
+        devs = sorted(devs, key=lambda k: (k['vendor_id']))
 
         self.assertEquals(len(devs), 2)
         self.assertEquals(devs[0]['vendor_id'], 0x046d)

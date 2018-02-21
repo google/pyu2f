@@ -171,8 +171,8 @@ class CustomAuthenticatorTest(unittest.TestCase):
 
     # process returns sign response in json
     mock_communicate_method = mock.MagicMock()
-    mock_communicate_method.return_value = [plugin_response_len
-                                            + plugin_response]
+    mock_communicate_method.return_value = [plugin_response_len +
+                                            plugin_response]
 
     # process returns with return code of 0
     mock_wait_method = mock.MagicMock()
@@ -214,8 +214,8 @@ class CustomAuthenticatorTest(unittest.TestCase):
 
     # process returns sign response in json
     mock_communicate_method = mock.MagicMock()
-    mock_communicate_method.return_value = [plugin_response_len
-                                            + plugin_response_json]
+    mock_communicate_method.return_value = [plugin_response_len +
+                                            plugin_response_json]
 
     # process returns with return code of 0
     mock_wait_method = mock.MagicMock()
@@ -257,8 +257,8 @@ class CustomAuthenticatorTest(unittest.TestCase):
 
     # process returns sign response in json
     mock_communicate_method = mock.MagicMock()
-    mock_communicate_method.return_value = [plugin_response_len
-                                            + plugin_response_json]
+    mock_communicate_method.return_value = [plugin_response_len +
+                                            plugin_response_json]
 
     # process returns with return code of 0
     mock_wait_method = mock.MagicMock()
@@ -301,8 +301,8 @@ class CustomAuthenticatorTest(unittest.TestCase):
 
     # process returns sign response in json
     mock_communicate_method = mock.MagicMock()
-    mock_communicate_method.return_value = [plugin_response_len
-                                            + plugin_response_json]
+    mock_communicate_method.return_value = [plugin_response_len +
+                                            plugin_response_json]
 
     # process returns with return code of 0
     mock_wait_method = mock.MagicMock()
@@ -347,8 +347,8 @@ class CustomAuthenticatorTest(unittest.TestCase):
 
     # process returns sign response in json
     mock_communicate_method = mock.MagicMock()
-    mock_communicate_method.return_value = [plugin_response_len
-                                            + plugin_response_json]
+    mock_communicate_method.return_value = [plugin_response_len +
+                                            plugin_response_json]
 
     # process returns with return code of 0
     mock_wait_method = mock.MagicMock()

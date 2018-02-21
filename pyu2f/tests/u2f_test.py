@@ -117,7 +117,8 @@ class U2fTest(unittest.TestCase):
 
     u2f_api = u2f.U2FInterface(mock_sk)
 
-    resp = u2f_api.Authenticate('testapp', b'ABCD', [model.RegisteredKey('khA')])
+    resp = u2f_api.Authenticate('testapp', b'ABCD',
+                                [model.RegisteredKey('khA')])
     self.assertEquals(mock_sk.CmdAuthenticate.call_count, 2)
     self.assertEquals(mock_sk.CmdWink.call_count, 1)
     self.assertEquals(resp.key_handle, 'khA')
@@ -183,8 +184,9 @@ class U2fTest(unittest.TestCase):
 
     u2f_api = u2f.U2FInterface(mock_sk)
     with self.assertRaises(errors.U2FError) as cm:
-      u2f_api.Authenticate('testapp', b'ABCD', [model.RegisteredKey('khA'),
-                                               model.RegisteredKey('khB')])
+      u2f_api.Authenticate('testapp', b'ABCD',
+                           [model.RegisteredKey('khA'),
+                            model.RegisteredKey('khB')])
     self.assertEquals(cm.exception.code, errors.U2FError.DEVICE_INELIGIBLE)
 
     u2f_api = u2f.U2FInterface(mock_sk)

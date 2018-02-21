@@ -14,7 +14,6 @@
 
 """Implements HID device interface on MacOS using IOKit and HIDManager."""
 from future import standard_library
-standard_library.install_aliases()
 from builtins import range
 import ctypes
 import ctypes.util
@@ -25,6 +24,8 @@ import threading
 
 from pyu2f import errors
 from pyu2f.hid import base
+
+standard_library.install_aliases()
 
 logger = logging.getLogger('pyu2f.macos')
 
@@ -289,8 +290,8 @@ def DeviceReadThread(hid_device):
 
   # Run the run loop
   run_loop_run_result = K_CF_RUN_LOOP_RUN_TIMED_OUT
-  while (run_loop_run_result == K_CF_RUN_LOOP_RUN_TIMED_OUT
-         or run_loop_run_result == K_CF_RUN_LOOP_RUN_HANDLED_SOURCE):
+  while (run_loop_run_result == K_CF_RUN_LOOP_RUN_TIMED_OUT or
+         run_loop_run_result == K_CF_RUN_LOOP_RUN_HANDLED_SOURCE):
     run_loop_run_result = cf.CFRunLoopRunInMode(
         K_CF_RUNLOOP_DEFAULT_MODE,
         1000,  # Timeout in seconds
