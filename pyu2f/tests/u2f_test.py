@@ -92,8 +92,8 @@ class U2fTest(unittest.TestCase):
       with self.assertRaises(errors.U2FError) as cm:
         u2f_api.Register('testapp', 'ABCD', [])
     self.assertEquals(cm.exception.code, errors.U2FError.TIMEOUT)
-    self.assertEquals(mock_sk.CmdRegister.call_count, 10)
-    self.assertEquals(mock_sk.CmdWink.call_count, 10)
+    self.assertEquals(mock_sk.CmdRegister.call_count, 30)
+    self.assertEquals(mock_sk.CmdWink.call_count, 30)
 
   def testRegisterError(self):
     mock_sk = mock.MagicMock()
@@ -173,8 +173,8 @@ class U2fTest(unittest.TestCase):
       with self.assertRaises(errors.U2FError) as cm:
         u2f_api.Authenticate('testapp', 'ABCD', [model.RegisteredKey('khA')])
     self.assertEquals(cm.exception.code, errors.U2FError.TIMEOUT)
-    self.assertEquals(mock_sk.CmdAuthenticate.call_count, 10)
-    self.assertEquals(mock_sk.CmdWink.call_count, 10)
+    self.assertEquals(mock_sk.CmdAuthenticate.call_count, 30)
+    self.assertEquals(mock_sk.CmdWink.call_count, 30)
 
   def testAuthenticateAllKeysInvalid(self):
     mock_sk = mock.MagicMock()
