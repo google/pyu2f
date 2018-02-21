@@ -33,7 +33,7 @@ class U2fTest(unittest.TestCase):
   def testRegisterSuccessWithTUP(self):
     mock_sk = mock.MagicMock()
     mock_sk.CmdRegister.side_effect = [errors.TUPRequiredError, 'regdata']
-    mock_sk.CmdVersion.return_value = 'U2F_V2'
+    mock_sk.CmdVersion.return_value = b'U2F_V2'
 
     u2f_api = u2f.U2FInterface(mock_sk)
 
@@ -48,7 +48,7 @@ class U2fTest(unittest.TestCase):
     mock_sk = mock.MagicMock()
     mock_sk.CmdAuthenticate.side_effect = errors.InvalidKeyHandleError
     mock_sk.CmdRegister.side_effect = [errors.TUPRequiredError, 'regdata']
-    mock_sk.CmdVersion.return_value = 'U2F_V2'
+    mock_sk.CmdVersion.return_value = b'U2F_V2'
 
     u2f_api = u2f.U2FInterface(mock_sk)
 
@@ -66,7 +66,7 @@ class U2fTest(unittest.TestCase):
   def testRegisterFailAlreadyRegistered(self):
     mock_sk = mock.MagicMock()
     mock_sk.CmdAuthenticate.side_effect = errors.TUPRequiredError
-    mock_sk.CmdVersion.return_value = 'U2F_V2'
+    mock_sk.CmdVersion.return_value = b'U2F_V2'
 
     u2f_api = u2f.U2FInterface(mock_sk)
 
@@ -84,7 +84,7 @@ class U2fTest(unittest.TestCase):
   def testRegisterTimeout(self):
     mock_sk = mock.MagicMock()
     mock_sk.CmdRegister.side_effect = errors.TUPRequiredError
-    mock_sk.CmdVersion.return_value = 'U2F_V2'
+    mock_sk.CmdVersion.return_value = b'U2F_V2'
     u2f_api = u2f.U2FInterface(mock_sk)
 
     # Speed up the test by mocking out sleep to do nothing
@@ -98,7 +98,7 @@ class U2fTest(unittest.TestCase):
   def testRegisterError(self):
     mock_sk = mock.MagicMock()
     mock_sk.CmdRegister.side_effect = errors.ApduError(0xff, 0xff)
-    mock_sk.CmdVersion.return_value = 'U2F_V2'
+    mock_sk.CmdVersion.return_value = b'U2F_V2'
     u2f_api = u2f.U2FInterface(mock_sk)
 
     with self.assertRaises(errors.U2FError) as cm:
@@ -113,7 +113,7 @@ class U2fTest(unittest.TestCase):
   def testAuthenticateSuccessWithTUP(self):
     mock_sk = mock.MagicMock()
     mock_sk.CmdAuthenticate.side_effect = [errors.TUPRequiredError, 'signature']
-    mock_sk.CmdVersion.return_value = 'U2F_V2'
+    mock_sk.CmdVersion.return_value = b'U2F_V2'
 
     u2f_api = u2f.U2FInterface(mock_sk)
 
@@ -130,7 +130,7 @@ class U2fTest(unittest.TestCase):
     mock_sk = mock.MagicMock()
     mock_sk.CmdAuthenticate.side_effect = [errors.InvalidKeyHandleError,
                                            'signature']
-    mock_sk.CmdVersion.return_value = 'U2F_V2'
+    mock_sk.CmdVersion.return_value = b'U2F_V2'
 
     u2f_api = u2f.U2FInterface(mock_sk)
 
@@ -147,7 +147,7 @@ class U2fTest(unittest.TestCase):
   def testAuthenticateSuccessSkipInvalidVersion(self):
     mock_sk = mock.MagicMock()
     mock_sk.CmdAuthenticate.return_value = 'signature'
-    mock_sk.CmdVersion.return_value = 'U2F_V2'
+    mock_sk.CmdVersion.return_value = b'U2F_V2'
 
     u2f_api = u2f.U2FInterface(mock_sk)
 
@@ -166,7 +166,7 @@ class U2fTest(unittest.TestCase):
   def testAuthenticateTimeout(self):
     mock_sk = mock.MagicMock()
     mock_sk.CmdAuthenticate.side_effect = errors.TUPRequiredError
-    mock_sk.CmdVersion.return_value = 'U2F_V2'
+    mock_sk.CmdVersion.return_value = b'U2F_V2'
     u2f_api = u2f.U2FInterface(mock_sk)
 
     # Speed up the test by mocking out sleep to do nothing
@@ -180,7 +180,7 @@ class U2fTest(unittest.TestCase):
   def testAuthenticateAllKeysInvalid(self):
     mock_sk = mock.MagicMock()
     mock_sk.CmdAuthenticate.side_effect = errors.InvalidKeyHandleError
-    mock_sk.CmdVersion.return_value = 'U2F_V2'
+    mock_sk.CmdVersion.return_value = b'U2F_V2'
 
     u2f_api = u2f.U2FInterface(mock_sk)
     with self.assertRaises(errors.U2FError) as cm:
@@ -194,7 +194,7 @@ class U2fTest(unittest.TestCase):
   def testAuthenticateError(self):
     mock_sk = mock.MagicMock()
     mock_sk.CmdAuthenticate.side_effect = errors.ApduError(0xff, 0xff)
-    mock_sk.CmdVersion.return_value = 'U2F_V2'
+    mock_sk.CmdVersion.return_value = b'U2F_V2'
     u2f_api = u2f.U2FInterface(mock_sk)
 
     with self.assertRaises(errors.U2FError) as cm:

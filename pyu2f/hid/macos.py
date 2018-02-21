@@ -104,7 +104,7 @@ K_CF_NUMBER_SINT32_TYPE = 3
 K_CF_STRING_ENCODING_UTF8 = 0x08000100
 K_CF_ALLOCATOR_DEFAULT = None
 
-K_IO_SERVICE_PLANE = 'IOService'
+K_IO_SERVICE_PLANE = b'IOService'
 K_IO_MASTER_PORT_DEFAULT = 0
 K_IO_HID_REPORT_TYPE_OUTPUT = 1
 K_IO_RETURN_SUCCESS = 0
@@ -191,7 +191,7 @@ def CFStr(s):
 
   Resulting CFString must be CFReleased when no longer needed.
   """
-  return cf.CFStringCreateWithCString(None, s, 0)
+  return cf.CFStringCreateWithCString(None, s.encode(), 0)
 
 
 def GetDeviceIntProperty(dev_ref, key):
@@ -432,19 +432,30 @@ class MacOsHidDevice(base.HidDevice):
 
   def Read(self):
     """See base class."""
-    return self.read_queue.get(timeout=sys.maxsize)
+
+    result = None
+    while result is None:
+        try:
+            result = self.read_queue.get(timeout=60)
+        except queue.Empty:
+            continue
+
+    return result
 
   def __del__(self):
     # Unregister the callback
-    iokit.IOHIDDeviceRegisterInputReportCallback(
-        self.device_handle,
-        self.in_report_buffer,
-        self.internal_max_in_report_len,
-        None,
-        None)
+    if hasattr(self, 'device_handle'):
+        iokit.IOHIDDeviceRegisterInputReportCallback(
+            self.device_handle,
+            self.in_report_buffer,
+            self.internal_max_in_report_len,
+            None,
+            None)
 
     # Stop the run loop
-    cf.CFRunLoopStop(self.run_loop_ref)
+    if hasattr(self, 'run_loop_ref'):
+        cf.CFRunLoopStop(self.run_loop_ref)
 
     # Wait for the read thread to exit
-    self.read_thread.join()
+    if hasattr(self, 'read_thread'):
+        self.read_thread.join()

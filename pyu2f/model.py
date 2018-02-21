@@ -60,7 +60,7 @@ class ClientData(object):
 
 class RegisteredKey(object):
 
-  def __init__(self, key_handle, version='U2F_V2'):
+  def __init__(self, key_handle, version=u'U2F_V2'):
     self.key_handle = key_handle
     self.version = version
 

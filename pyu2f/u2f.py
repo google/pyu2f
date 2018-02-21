@@ -68,7 +68,7 @@ class U2FInterface(object):
     self.origin = origin
     self.security_key = security_key
 
-    if self.security_key.CmdVersion() != 'U2F_V2':
+    if self.security_key.CmdVersion() != b'U2F_V2':
       raise errors.UnsupportedVersionException()
 
   def Register(self, app_id, challenge, registered_keys):
@@ -98,7 +98,7 @@ class U2FInterface(object):
     for key in registered_keys:
       try:
         # skip non U2F_V2 keys
-        if key.version != 'U2F_V2':
+        if key.version != u'U2F_V2':
           continue
         resp = self.security_key.CmdAuthenticate(challenge_param, app_param,
                                                  key.key_handle, True)
@@ -154,7 +154,7 @@ class U2FInterface(object):
     num_invalid_keys = 0
     for key in registered_keys:
       try:
-        if key.version != 'U2F_V2':
+        if key.version != u'U2F_V2':
           continue
         for _ in range(30):
           try:
