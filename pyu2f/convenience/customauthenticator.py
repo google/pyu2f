@@ -118,10 +118,10 @@ class CustomAuthenticator(baseauthenticator.BaseAuthenticator):
     """Builds a JSON request in the form that the plugin expects."""
     client_data_map = {}
     encoded_challenges = []
-    app_id_hash_encoded = self._base64encode(self._SHA256(app_id))
+    app_id_hash_encoded = self._Base64Encode(self._SHA256(app_id))
     for challenge_item in challenge_data:
       key = challenge_item['key']
-      key_handle_encoded = self._base64encode(key.key_handle)
+      key_handle_encoded = self._Base64Encode(key.key_handle)
 
       raw_challenge = challenge_item['challenge']
 
@@ -130,7 +130,7 @@ class CustomAuthenticator(baseauthenticator.BaseAuthenticator):
           raw_challenge,
           origin).GetJson()
 
-      challenge_hash_encoded = self._base64encode(
+      challenge_hash_encoded = self._Base64Encode(
           self._SHA256(client_data_json))
 
       # Populate challenges list
@@ -156,7 +156,7 @@ class CustomAuthenticator(baseauthenticator.BaseAuthenticator):
 
   def _BuildAuthenticatorResponse(self, app_id, client_data, plugin_response):
     """Builds the response to return to the caller."""
-    encoded_client_data = self._base64encode(client_data)
+    encoded_client_data = self._Base64Encode(client_data)
     signature_data = str(plugin_response['signatureData'])
     key_handle = str(plugin_response['keyHandle'])
 
@@ -238,7 +238,7 @@ class CustomAuthenticator(baseauthenticator.BaseAuthenticator):
     md.update(string.encode())
     return md.digest()
 
-  def _base64encode(self, bytes_data):
+  def _Base64Encode(self, bytes_data):
       """Helper method to base64 encode, strip padding, and return str
       result."""
       return base64.urlsafe_b64encode(bytes_data).decode().rstrip('=')
