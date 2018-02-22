@@ -444,7 +444,7 @@ class MacOsHidDevice(base.HidDevice):
 
   def __del__(self):
     # Unregister the callback
-    if hasattr(self, 'device_handle'):
+    if hasattr(self, 'in_report_buffer'):
         iokit.IOHIDDeviceRegisterInputReportCallback(
             self.device_handle,
             self.in_report_buffer,
