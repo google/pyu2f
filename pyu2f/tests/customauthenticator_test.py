@@ -34,18 +34,18 @@ else:
 # Input/ouput values recorded from a successful signing flow
 SIGN_SUCCESS = {
     'app_id': 'test_app_id',
-    'app_id_hash_encoded': 'TnMguTdPn7OcIO9f-0CgfQdY254bvc6WR-DTPZnJ49w=',
+    'app_id_hash_encoded': 'TnMguTdPn7OcIO9f-0CgfQdY254bvc6WR-DTPZnJ49w',
     'challenge': b'asdfasdf',
-    'challenge_hash_encoded': 'qhJtbTQvsU0BmLLpDWes-3zFGbegR2wp1mv5BJ2BwC0=',
+    'challenge_hash_encoded': 'qhJtbTQvsU0BmLLpDWes-3zFGbegR2wp1mv5BJ2BwC0',
     'key_handle_encoded': ('iBbl9-VYt-XSdWeHVNX-gfQcXGzlrAQ7BcngVNUxWijIQQlnZEI'
-                           '4Vb0Bp2ydBCbIQu_5rNlKqPH6NK1TtnM7fA=='),
+                           '4Vb0Bp2ydBCbIQu_5rNlKqPH6NK1TtnM7fA'),
     'origin': 'test_origin',
     'signature_data_encoded': ('AQAAAI8wRQIhALlIPo6Hg8HwzELdYRIXnAnpsiHYCSXHex'
                                'CS34eiS2ixAiBt3TRmKE1A9WyMjc3JGrGI7gSPg-QzDSNL'
-                               'aIj7JwcCTA=='),
+                               'aIj7JwcCTA'),
     'client_data_encoded': ('eyJjaGFsbGVuZ2UiOiAiWVhOa1ptRnpaR1kiLCAib3JpZ2luI'
                             'jogInRlc3Rfb3JpZ2luIiwgInR5cCI6ICJuYXZpZ2F0b3IuaW'
-                            'QuZ2V0QXNzZXJ0aW9uIn0='),
+                            'QuZ2V0QXNzZXJ0aW9uIn0'),
     'u2f_version': 'U2F_V2',
     'registered_key': model.RegisteredKey(base64.urlsafe_b64decode(
         'iBbl9-VYt-XSdWeHVNX-gfQcXGzlrAQ7BcngVNUxWijIQQlnZEI4Vb0Bp2ydBCbIQu'
