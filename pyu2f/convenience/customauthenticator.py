@@ -194,7 +194,7 @@ class CustomAuthenticator(baseauthenticator.BaseAuthenticator):
 
     # Ensure valid json
     try:
-      json_response = json.loads(response)
+      json_response = json.loads(response.decode())
     except ValueError:
       raise errors.PluginError('Plugin returned invalid output (exit_status={})'
                                .format(exit_status))

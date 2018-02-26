@@ -221,11 +221,11 @@ class LinuxHidDevice(base.HidDevice):
 
   def Write(self, packet):
     """See base class."""
-    out = ''.join(map(chr, [0] + packet))  # Prepend the zero-byte (report ID)
+    out = bytearray([0] + packet) # Prepend the zero-byte (report ID)
     os.write(self.dev, out)
 
   def Read(self):
     """See base class."""
     raw_in = os.read(self.dev, self.GetInReportDataLength())
-    decoded_in = list(map(ord, raw_in))
+    decoded_in = list(bytearray(raw_in))
     return decoded_in

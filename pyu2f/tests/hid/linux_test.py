@@ -118,10 +118,10 @@ class LinuxTest(unittest.TestCase):
         dev.Write(list(range(0, 64)))
         # The HidDevice implementation prepends a zero-byte representing the
         # report ID
-        self.assertEquals(list(map(ord, fake_dev_os.data_written)),
+        self.assertEquals(list(fake_dev_os.data_written),
                           [0] + list(range(0, 64)))
 
-        fake_dev_os.data_to_return = 'x' * 64
+        fake_dev_os.data_to_return = b'x' * 64
         self.assertEquals(dev.Read(), [120] * 64)  # chr(120) = 'x'
 
 
