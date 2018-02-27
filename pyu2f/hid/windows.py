@@ -337,7 +337,8 @@ class WindowsHidDevice(base.HidDevice):
     if len(packet) != self.GetOutReportDataLength():
       raise errors.HidError("Packet length must match report data length.")
 
-    out = "".join(map(chr, [0] + packet))  # Prepend the zero-byte (report ID)
+    packet_data = [0] + packet  # Prepend the zero-byte (report ID)
+    out = bytes(bytearray(packet_data))
     num_written = wintypes.DWORD()
     ret = (
         kernel32.WriteFile(
@@ -365,4 +366,9 @@ class WindowsHidDevice(base.HidDevice):
 
     # Convert the string buffer to a list of numbers.  Throw away the first
     # byte, which is the report id (which we don't care about).
-    return map(ord, buf)[1:]
+    return list(bytearray(buf[1:]))
+
+  def __del__(self):
+    """Closes the file handle when object is GC-ed."""
+    if hasattr(self, 'dev'):
+      kernel32.CloseHandle(self.dev)
