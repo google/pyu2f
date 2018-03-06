@@ -79,9 +79,11 @@ class SecurityKey(object):
     in order to authenticate the user.
 
     Args:
-      challenge_param: SHA-256 hash of client_data object.
-      app_param: SHA-256 hash of the app id.
-      key_handle: The key handle to use to issue the signature
+      challenge_param: SHA-256 hash of client_data object as a bytes
+          object.
+      app_param: SHA-256 hash of the app id as a bytes object.
+      key_handle: The key handle to use to issue the signature as a bytes
+          object.
       check_only: If true, only check if key_handle is valid.
 
     Returns:
@@ -101,8 +103,8 @@ class SecurityKey(object):
       raise errors.InvalidRequestError()
     control = 0x07 if check_only else 0x03
 
-    body = bytearray(challenge_param + app_param + bytearray([len(key_handle)])
-                     + key_handle)
+    body = bytearray(challenge_param + app_param +
+                     bytearray([len(key_handle)]) + key_handle)
     response = self.InternalSendApdu(apdu.CommandApdu(
         0, apdu.CMD_AUTH, control, 0x00, body))
     response.CheckSuccessOrRaise()

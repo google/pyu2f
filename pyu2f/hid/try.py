@@ -17,6 +17,7 @@
 This simple test program lists all of the HID devices on the
 local system.
 """
+from __future__ import print_function
 
 from pyu2f import hid
 
@@ -24,7 +25,7 @@ from pyu2f import hid
 def main():
   devs = hid.Enumerate()
   for dev in devs:
-    print dev
+    print(dev)
 
 
 if __name__ == '__main__':

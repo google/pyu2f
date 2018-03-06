@@ -34,18 +34,18 @@ else:
 # Input/ouput values recorded from a successful signing flow
 SIGN_SUCCESS = {
     'app_id': 'test_app_id',
-    'app_id_hash_encoded': 'TnMguTdPn7OcIO9f-0CgfQdY254bvc6WR-DTPZnJ49w=',
-    'challenge': 'asdfasdf',
-    'challenge_hash_encoded': 'qhJtbTQvsU0BmLLpDWes-3zFGbegR2wp1mv5BJ2BwC0=',
+    'app_id_hash_encoded': 'TnMguTdPn7OcIO9f-0CgfQdY254bvc6WR-DTPZnJ49w',
+    'challenge': b'asdfasdf',
+    'challenge_hash_encoded': 'qhJtbTQvsU0BmLLpDWes-3zFGbegR2wp1mv5BJ2BwC0',
     'key_handle_encoded': ('iBbl9-VYt-XSdWeHVNX-gfQcXGzlrAQ7BcngVNUxWijIQQlnZEI'
-                           '4Vb0Bp2ydBCbIQu_5rNlKqPH6NK1TtnM7fA=='),
+                           '4Vb0Bp2ydBCbIQu_5rNlKqPH6NK1TtnM7fA'),
     'origin': 'test_origin',
     'signature_data_encoded': ('AQAAAI8wRQIhALlIPo6Hg8HwzELdYRIXnAnpsiHYCSXHex'
                                'CS34eiS2ixAiBt3TRmKE1A9WyMjc3JGrGI7gSPg-QzDSNL'
-                               'aIj7JwcCTA=='),
+                               'aIj7JwcCTA'),
     'client_data_encoded': ('eyJjaGFsbGVuZ2UiOiAiWVhOa1ptRnpaR1kiLCAib3JpZ2luI'
                             'jogInRlc3Rfb3JpZ2luIiwgInR5cCI6ICJuYXZpZ2F0b3IuaW'
-                            'QuZ2V0QXNzZXJ0aW9uIn0='),
+                            'QuZ2V0QXNzZXJ0aW9uIn0'),
     'u2f_version': 'U2F_V2',
     'registered_key': model.RegisteredKey(base64.urlsafe_b64decode(
         'iBbl9-VYt-XSdWeHVNX-gfQcXGzlrAQ7BcngVNUxWijIQQlnZEI4Vb0Bp2ydBCbIQu'
@@ -85,7 +85,7 @@ class CustomAuthenticatorTest(unittest.TestCase):
             'signatureData': SIGN_SUCCESS['signature_data_encoded']},
         'data': None
     }
-    valid_plugin_response_json = json.dumps(valid_plugin_response)
+    valid_plugin_response_json = json.dumps(valid_plugin_response).encode()
     valid_plugin_response_len = struct.pack('<I',
                                             len(valid_plugin_response_json))
 
@@ -166,13 +166,13 @@ class CustomAuthenticatorTest(unittest.TestCase):
                      return_value='gnubbyagent')
   def testPluginReturnsMalformedJson(self, os_get_method, popen_method):
     """Test when plugin returns non-json response."""
-    plugin_response = 'abc'
+    plugin_response = b'abc'
     plugin_response_len = struct.pack('<I', len(plugin_response))
 
     # process returns sign response in json
     mock_communicate_method = mock.MagicMock()
-    mock_communicate_method.return_value = [plugin_response_len
-                                            + plugin_response]
+    mock_communicate_method.return_value = [plugin_response_len +
+                                            plugin_response]
 
     # process returns with return code of 0
     mock_wait_method = mock.MagicMock()
@@ -209,13 +209,13 @@ class CustomAuthenticatorTest(unittest.TestCase):
             'signatureData': SIGN_SUCCESS['signature_data_encoded']},
         'data': None
     }
-    plugin_response_json = json.dumps(valid_plugin_response)
+    plugin_response_json = json.dumps(valid_plugin_response).encode()
     plugin_response_len = struct.pack('<I', len(plugin_response_json))
 
     # process returns sign response in json
     mock_communicate_method = mock.MagicMock()
-    mock_communicate_method.return_value = [plugin_response_len
-                                            + plugin_response_json]
+    mock_communicate_method.return_value = [plugin_response_len +
+                                            plugin_response_json]
 
     # process returns with return code of 0
     mock_wait_method = mock.MagicMock()
@@ -252,13 +252,13 @@ class CustomAuthenticatorTest(unittest.TestCase):
             'signatureData': SIGN_SUCCESS['signature_data_encoded']},
         'data': None
     }
-    plugin_response_json = json.dumps(valid_plugin_response)
+    plugin_response_json = json.dumps(valid_plugin_response).encode()
     plugin_response_len = struct.pack('<I', len(plugin_response_json))
 
     # process returns sign response in json
     mock_communicate_method = mock.MagicMock()
-    mock_communicate_method.return_value = [plugin_response_len
-                                            + plugin_response_json]
+    mock_communicate_method.return_value = [plugin_response_len +
+                                            plugin_response_json]
 
     # process returns with return code of 0
     mock_wait_method = mock.MagicMock()
@@ -296,13 +296,13 @@ class CustomAuthenticatorTest(unittest.TestCase):
             'signatureData': SIGN_SUCCESS['signature_data_encoded']},
         'data': None
     }
-    plugin_response_json = json.dumps(valid_plugin_response)
+    plugin_response_json = json.dumps(valid_plugin_response).encode()
     plugin_response_len = struct.pack('<I', len(plugin_response_json))
 
     # process returns sign response in json
     mock_communicate_method = mock.MagicMock()
-    mock_communicate_method.return_value = [plugin_response_len
-                                            + plugin_response_json]
+    mock_communicate_method.return_value = [plugin_response_len +
+                                            plugin_response_json]
 
     # process returns with return code of 0
     mock_wait_method = mock.MagicMock()
@@ -342,13 +342,13 @@ class CustomAuthenticatorTest(unittest.TestCase):
             'signatureData': SIGN_SUCCESS['signature_data_encoded']},
         'data': None
     }
-    plugin_response_json = json.dumps(valid_plugin_response)
+    plugin_response_json = json.dumps(valid_plugin_response).encode()
     plugin_response_len = struct.pack('<I', len(plugin_response_json))
 
     # process returns sign response in json
     mock_communicate_method = mock.MagicMock()
-    mock_communicate_method.return_value = [plugin_response_len
-                                            + plugin_response_json]
+    mock_communicate_method.return_value = [plugin_response_len +
+                                            plugin_response_json]
 
     # process returns with return code of 0
     mock_wait_method = mock.MagicMock()

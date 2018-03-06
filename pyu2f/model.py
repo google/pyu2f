@@ -34,7 +34,7 @@ class ClientData(object):
   TYP_REGISTRATION = 'navigator.id.finishEnrollment'
 
   def __init__(self, typ, raw_server_challenge, origin):
-    if typ not in  [ClientData.TYP_REGISTRATION, ClientData.TYP_AUTHENTICATION]:
+    if typ not in [ClientData.TYP_REGISTRATION, ClientData.TYP_AUTHENTICATION]:
       raise errors.InvalidModelError()
     self.typ = typ
     self.raw_server_challenge = raw_server_challenge
@@ -48,7 +48,8 @@ class ClientData(object):
     # Python does not natively support a paddingless encoding, so we simply
     # remove the padding from the end of the string.
     server_challenge_b64 = base64.urlsafe_b64encode(
-        self.raw_server_challenge).rstrip('=')
+        self.raw_server_challenge).decode()
+    server_challenge_b64 = server_challenge_b64.rstrip('=')
     return json.dumps({'typ': self.typ,
                        'challenge': server_challenge_b64,
                        'origin': self.origin}, sort_keys=True)
@@ -59,7 +60,7 @@ class ClientData(object):
 
 class RegisteredKey(object):
 
-  def __init__(self, key_handle, version='U2F_V2'):
+  def __init__(self, key_handle, version=u'U2F_V2'):
     self.key_handle = key_handle
     self.version = version
 

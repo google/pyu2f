@@ -14,6 +14,7 @@
 
 """Tests for pyu2f.apdu."""
 
+from builtins import range
 import sys
 
 from pyu2f import apdu
@@ -48,7 +49,7 @@ class ApduTest(unittest.TestCase):
 
   def testSerializeCommandApduTooLong(self):
     self.assertRaises(errors.InvalidCommandError, apdu.CommandApdu, 0, 0x01,
-                      0x03, 0x04, bytearray(0 for x in xrange(0, 65536)))
+                      0x03, 0x04, bytearray(0 for x in range(0, 65536)))
 
   def testResponseApduParse(self):
     resp = apdu.ResponseApdu(bytearray([0x05, 0x04, 0x90, 0x00]))

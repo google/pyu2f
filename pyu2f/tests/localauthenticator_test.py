@@ -33,7 +33,7 @@ else:
 SIGN_SUCCESS = {
     'app_id': 'test_app_id',
     'app_id_hash_encoded': 'TnMguTdPn7OcIO9f-0CgfQdY254bvc6WR-DTPZnJ49w=',
-    'challenge': 'asdfasdf',
+    'challenge': b'asdfasdf',
     'challenge_hash_encoded': 'qhJtbTQvsU0BmLLpDWes-3zFGbegR2wp1mv5BJ2BwC0=',
     'key_handle_encoded': ('iBbl9-VYt-XSdWeHVNX-gfQcXGzlrAQ7BcngVNUxWijIQQlnZEI'
                            '4Vb0Bp2ydBCbIQu_5rNlKqPH6NK1TtnM7fA=='),
