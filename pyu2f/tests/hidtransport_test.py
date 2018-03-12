@@ -14,6 +14,7 @@
 
 """Tests for pyu2f.hidtransport."""
 
+from builtins import range
 import sys
 
 import mock
@@ -108,8 +109,8 @@ class TransportTest(unittest.TestCase):
     fake_hid_dev = util.FakeHidDevice(bytearray([0x00, 0x00, 0x00, 0x01]))
     t = hidtransport.UsbHidTransport(fake_hid_dev)
 
-    reply = t.SendPing('1234')
-    self.assertEquals(reply, '1234')
+    reply = t.SendPing(b'1234')
+    self.assertEquals(reply, b'1234')
 
   def testMsg(self):
     fake_hid_dev = util.FakeHidDevice(
@@ -157,29 +158,29 @@ class TransportTest(unittest.TestCase):
 
   def testInitPacketShape(self):
     packet = hidtransport.UsbHidTransport.InitPacket(
-        64, bytearray('\x00\x00\x00\x01'), 0x83, 2, bytearray('\x01\x02'))
+        64, bytearray(b'\x00\x00\x00\x01'), 0x83, 2, bytearray(b'\x01\x02'))
 
     self.assertEquals(packet.ToWireFormat(), RPad(
         [0, 0, 0, 1, 0x83, 0, 2, 1, 2], 64))
 
     copy = hidtransport.UsbHidTransport.InitPacket.FromWireFormat(
         64, packet.ToWireFormat())
-    self.assertEquals(copy.cid, bytearray('\x00\x00\x00\x01'))
+    self.assertEquals(copy.cid, bytearray(b'\x00\x00\x00\x01'))
     self.assertEquals(copy.cmd, 0x83)
     self.assertEquals(copy.size, 2)
-    self.assertEquals(copy.payload, bytearray('\x01\x02'))
+    self.assertEquals(copy.payload, bytearray(b'\x01\x02'))
 
   def testContPacketShape(self):
     packet = hidtransport.UsbHidTransport.ContPacket(
-        64, bytearray('\x00\x00\x00\x01'), 5, bytearray('\x01\x02'))
+        64, bytearray(b'\x00\x00\x00\x01'), 5, bytearray(b'\x01\x02'))
 
     self.assertEquals(packet.ToWireFormat(), RPad([0, 0, 0, 1, 5, 1, 2], 64))
 
     copy = hidtransport.UsbHidTransport.ContPacket.FromWireFormat(
         64, packet.ToWireFormat())
-    self.assertEquals(copy.cid, bytearray('\x00\x00\x00\x01'))
+    self.assertEquals(copy.cid, bytearray(b'\x00\x00\x00\x01'))
     self.assertEquals(copy.seq, 5)
-    self.assertEquals(copy.payload, RPad(bytearray('\x01\x02'), 59))
+    self.assertEquals(copy.payload, RPad(bytearray(b'\x01\x02'), 59))
 
 
 if __name__ == '__main__':

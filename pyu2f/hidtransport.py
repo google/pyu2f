@@ -102,7 +102,7 @@ class UsbHidTransport(object):
       ret[4] = self.cmd
       struct.pack_into('>H', ret, 5, self.size)
       ret[7:7 + len(self.payload)] = self.payload
-      return map(int, ret)
+      return list(map(int, ret))
 
     @staticmethod
     def FromWireFormat(packet_size, data):
@@ -125,7 +125,7 @@ class UsbHidTransport(object):
         raise errors.InvalidPacketError()
       cid = ba[0:4]
       cmd = ba[4]
-      size = struct.unpack('>H', str(ba[5:7]))[0]
+      size = struct.unpack('>H', bytes(ba[5:7]))[0]
       payload = ba[7:7 + size]  # might truncate at packet_size
       return UsbHidTransport.InitPacket(packet_size, cid, cmd, size, payload)
 
@@ -162,7 +162,7 @@ class UsbHidTransport(object):
       ret[0:4] = self.cid
       ret[4] = self.seq
       ret[5:5 + len(self.payload)] = self.payload
-      return map(int, ret)
+      return list(map(int, ret))
 
     @staticmethod
     def FromWireFormat(packet_size, data):

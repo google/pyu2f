@@ -13,6 +13,7 @@
 # limitations under the License.
 
 """Convenience class for U2F signing with local security keys."""
+from builtins import input
 import base64
 import sys
 
@@ -35,7 +36,7 @@ class LocalAuthenticator(baseauthenticator.BaseAuthenticator):
       device = u2f.GetLocalU2FInterface(origin=self.origin)
     except errors.NoDeviceFoundError:
       print_callback('Please insert your security key and press enter...')
-      raw_input()
+      input()
       device = u2f.GetLocalU2FInterface(origin=self.origin)
 
     print_callback('Please touch your security key.\n')
@@ -52,9 +53,9 @@ class LocalAuthenticator(baseauthenticator.BaseAuthenticator):
         else:
           raise
 
-      client_data = base64.urlsafe_b64encode(result.client_data.GetJson())
-      signature_data = base64.urlsafe_b64encode(result.signature_data)
-      key_handle = base64.urlsafe_b64encode(result.key_handle)
+      client_data = self._base64encode(result.client_data.GetJson().encode())
+      signature_data = self._base64encode(result.signature_data)
+      key_handle = self._base64encode(result.key_handle)
 
       return {
           'clientData': client_data,
@@ -68,3 +69,7 @@ class LocalAuthenticator(baseauthenticator.BaseAuthenticator):
   def IsAvailable(self):
     """See base class."""
     return True
+
+  def _base64encode(self, bytes_data):
+      """Helper method to base64 encode and return str result."""
+      return base64.urlsafe_b64encode(bytes_data).decode()

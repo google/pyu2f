@@ -20,6 +20,9 @@ all implementations built on interacting with file-like objects.
 """
 
 
+from builtins import object
+
+
 class HidDevice(object):
   """Base class for all HID devices in this package."""
 
@@ -90,12 +93,12 @@ class DeviceDescriptor(object):
   product_string = None
   path = None
 
-  internal_max_in_report_len = None
-  internal_max_out_report_len = None
+  internal_max_in_report_len = 0
+  internal_max_out_report_len = 0
 
   def ToPublicDict(self):
     out = {}
-    for k, v in self.__dict__.items():
+    for k, v in list(self.__dict__.items()):
       if not k.startswith('internal_'):
         out[k] = v
     return out
