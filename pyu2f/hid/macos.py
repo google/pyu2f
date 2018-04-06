@@ -13,19 +13,16 @@
 # limitations under the License.
 
 """Implements HID device interface on MacOS using IOKit and HIDManager."""
-from future import standard_library
-from builtins import range
+from six.moves import queue
+from six.moves import range
 import ctypes
 import ctypes.util
 import logging
-import queue
 import sys
 import threading
 
 from pyu2f import errors
 from pyu2f.hid import base
-
-standard_library.install_aliases()
 
 logger = logging.getLogger('pyu2f.macos')
 

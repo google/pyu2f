@@ -13,7 +13,6 @@
 # limitations under the License.
 
 """Interface to handle end to end flow of U2F signing."""
-from builtins import object
 import sys
 
 
