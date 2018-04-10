@@ -14,7 +14,7 @@
 
 """Tests for pyu2f.apdu."""
 
-from builtins import range
+from six.moves import range
 import sys
 
 from pyu2f import apdu

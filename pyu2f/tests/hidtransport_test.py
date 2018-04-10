@@ -14,7 +14,7 @@
 
 """Tests for pyu2f.hidtransport."""
 
-from builtins import range
+from six.moves import range
 import sys
 
 import mock

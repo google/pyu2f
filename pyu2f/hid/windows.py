@@ -14,7 +14,6 @@
 
 """Implements raw HID device communication on Windows."""
 
-from builtins import map
 import ctypes
 from ctypes import wintypes
 

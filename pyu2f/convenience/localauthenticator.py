@@ -13,7 +13,7 @@
 # limitations under the License.
 
 """Convenience class for U2F signing with local security keys."""
-from builtins import input
+import six
 import base64
 import sys
 
@@ -36,7 +36,7 @@ class LocalAuthenticator(baseauthenticator.BaseAuthenticator):
       device = u2f.GetLocalU2FInterface(origin=self.origin)
     except errors.NoDeviceFoundError:
       print_callback('Please insert your security key and press enter...')
-      input()
+      six.input()
       device = u2f.GetLocalU2FInterface(origin=self.origin)
 
     print_callback('Please touch your security key.\n')

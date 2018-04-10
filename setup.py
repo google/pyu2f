@@ -37,7 +37,7 @@ setuptools.setup(
     # Contained modules and scripts.
     packages=setuptools.find_packages(exclude=["pyu2f.tests", "pyu2f.tests.*"]),
     install_requires=[
-        'future',
+        'six',
     ],
     tests_require=[
         'unittest2>=0.5.1',
