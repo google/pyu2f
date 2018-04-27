@@ -36,7 +36,7 @@ class LocalAuthenticator(baseauthenticator.BaseAuthenticator):
       device = u2f.GetLocalU2FInterface(origin=self.origin)
     except errors.NoDeviceFoundError:
       print_callback('Please insert your security key and press enter...')
-      six.input()
+      six.moves.input()
       device = u2f.GetLocalU2FInterface(origin=self.origin)
 
     print_callback('Please touch your security key.\n')
