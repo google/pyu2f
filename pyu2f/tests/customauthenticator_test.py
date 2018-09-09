@@ -133,7 +133,7 @@ class CustomAuthenticatorTest(unittest.TestCase):
                       'communicate() should have been called with correct'
                       'length field')
 
-    communicate_dict = json.loads(communicate_json)
+    communicate_dict = json.loads(communicate_json.decode("utf8"))
     self.assertEquals(communicate_dict.get('type'), 'sign_helper_request')
     self.assertEquals(communicate_dict.get('timeoutSeconds'), 5)
     self.assertEquals(communicate_dict.get('localAlways'), True)
