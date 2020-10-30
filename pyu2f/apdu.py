@@ -137,11 +137,11 @@ class ResponseApdu(object):
     return self.sw1 == 0x90 and self.sw2 == 0x00
 
   def CheckSuccessOrRaise(self):
-    if self.sw1 == 0x69 and self.sw2 == 0x85:
+    if self.sw1 == 0x69 and self.sw2 == 0x85:  # SW_CONDITIONS_NOT_SATISFIED
       raise errors.TUPRequiredError()
-    elif self.sw1 == 0x6a and self.sw2 == 0x80:
+    elif self.sw1 == 0x6a and self.sw2 == 0x80:  # SW_WRONG_DATA
       raise errors.InvalidKeyHandleError()
-    elif self.sw1 == 0x69 and self.sw2 == 0x84:
+    elif self.sw1 == 0x67 and self.sw2 == 0x00:  # SW_WRONG_LENGTH
       raise errors.InvalidKeyHandleError()
     elif not self.IsSuccess():
       raise errors.ApduError(self.sw1, self.sw2)
