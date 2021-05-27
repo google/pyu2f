@@ -181,16 +181,22 @@ class LinuxHidDevice(base.HidDevice):
 
   @staticmethod
   def Enumerate():
-    for hidraw in os.listdir('/sys/class/hidraw'):
+    hidraw_devices = []
+    try:
+      hidraw_devices = os.listdir('/sys/class/hidraw')
+    except FileNotFoundError:
+      raise errors.OsHidError('No hidraw device is available')
+
+    for dev in hidraw_devices:
       rd_path = (
           os.path.join(
-              '/sys/class/hidraw', hidraw,
+              '/sys/class/hidraw', dev,
               'device/report_descriptor'))
-      uevent_path = os.path.join('/sys/class/hidraw', hidraw, 'device/uevent')
+      uevent_path = os.path.join('/sys/class/hidraw', dev, 'device/uevent')
       rd_file = open(rd_path, 'rb')
       uevent_file = open(uevent_path, 'rb')
       desc = base.DeviceDescriptor()
-      desc.path = os.path.join('/dev/', hidraw)
+      desc.path = os.path.join('/dev/', dev)
       ParseReportDescriptor(rd_file.read(), desc)
       ParseUevent(uevent_file.read(), desc)
 
