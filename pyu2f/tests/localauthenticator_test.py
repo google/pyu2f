@@ -92,14 +92,14 @@ class LocalAuthenticatorTest(unittest.TestCase):
     self.assertEqual(registered_keys[0], SIGN_SUCCESS['registered_key'])
 
     # Validate authenticator response
-    self.assertEquals(response.get('clientData'),
-                      SIGN_SUCCESS['client_data_encoded'])
-    self.assertEquals(response.get('signatureData'),
-                      SIGN_SUCCESS['signature_data_encoded'])
-    self.assertEquals(response.get('applicationId'),
-                      SIGN_SUCCESS['app_id'])
-    self.assertEquals(response.get('keyHandle'),
-                      SIGN_SUCCESS['key_handle_encoded'])
+    self.assertEqual(response.get('clientData'),
+                     SIGN_SUCCESS['client_data_encoded'])
+    self.assertEqual(response.get('signatureData'),
+                     SIGN_SUCCESS['signature_data_encoded'])
+    self.assertEqual(response.get('applicationId'),
+                     SIGN_SUCCESS['app_id'])
+    self.assertEqual(response.get('keyHandle'),
+                     SIGN_SUCCESS['key_handle_encoded'])
 
   @mock.patch.object(localauthenticator.u2f, 'GetLocalU2FInterface')
   def testSignMultipleIneligible(self, mock_get_u2f_method):
@@ -125,7 +125,7 @@ class LocalAuthenticatorTest(unittest.TestCase):
       authenticator.Authenticate(SIGN_SUCCESS['app_id'],
                                  challenge_data)
 
-    self.assertEquals(cm.exception.code, errors.U2FError.DEVICE_INELIGIBLE)
+    self.assertEqual(cm.exception.code, errors.U2FError.DEVICE_INELIGIBLE)
 
   @mock.patch.object(localauthenticator.u2f, 'GetLocalU2FInterface')
   def testSignMultipleSuccess(self, mock_get_u2f_method):
@@ -168,14 +168,14 @@ class LocalAuthenticatorTest(unittest.TestCase):
     self.assertEqual(registered_keys[0], SIGN_SUCCESS['registered_key'])
 
     # Validate authenticator response
-    self.assertEquals(response.get('clientData'),
-                      SIGN_SUCCESS['client_data_encoded'])
-    self.assertEquals(response.get('signatureData'),
-                      SIGN_SUCCESS['signature_data_encoded'])
-    self.assertEquals(response.get('applicationId'),
-                      SIGN_SUCCESS['app_id'])
-    self.assertEquals(response.get('keyHandle'),
-                      SIGN_SUCCESS['key_handle_encoded'])
+    self.assertEqual(response.get('clientData'),
+                     SIGN_SUCCESS['client_data_encoded'])
+    self.assertEqual(response.get('signatureData'),
+                     SIGN_SUCCESS['signature_data_encoded'])
+    self.assertEqual(response.get('applicationId'),
+                     SIGN_SUCCESS['app_id'])
+    self.assertEqual(response.get('keyHandle'),
+                     SIGN_SUCCESS['key_handle_encoded'])
 
 
 if __name__ == '__main__':

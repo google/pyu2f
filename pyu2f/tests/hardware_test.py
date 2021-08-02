@@ -60,11 +60,11 @@ class HardwareTest(unittest.TestCase):
         [0x01, 0x02, 0x90, 0x00])
 
     reply = sk.CmdRegister(challenge_param, app_param)
-    self.assertEquals(reply, bytearray([0x01, 0x02]))
-    self.assertEquals(mock_transport.SendMsgBytes.call_count, 1)
+    self.assertEqual(reply, bytearray([0x01, 0x02]))
+    self.assertEqual(mock_transport.SendMsgBytes.call_count, 1)
     (sent_msg,), _ = mock_transport.SendMsgBytes.call_args
-    self.assertEquals(sent_msg[0:4], bytearray([0x00, 0x01, 0x03, 0x00]))
-    self.assertEquals(sent_msg[7:-2], bytearray(challenge_param + app_param))
+    self.assertEqual(sent_msg[0:4], bytearray([0x00, 0x01, 0x03, 0x00]))
+    self.assertEqual(sent_msg[7:-2], bytearray(challenge_param + app_param))
 
   def testRegisterTUPRequired(self):
     mock_transport = mock.MagicMock()
@@ -77,7 +77,7 @@ class HardwareTest(unittest.TestCase):
 
     self.assertRaises(errors.TUPRequiredError, sk.CmdRegister, challenge_param,
                       app_param)
-    self.assertEquals(mock_transport.SendMsgBytes.call_count, 1)
+    self.assertEqual(mock_transport.SendMsgBytes.call_count, 1)
 
   def testVersion(self):
     mock_transport = mock.MagicMock()
@@ -86,10 +86,10 @@ class HardwareTest(unittest.TestCase):
     mock_transport.SendMsgBytes.return_value = bytearray(b'U2F_V2\x90\x00')
 
     reply = sk.CmdVersion()
-    self.assertEquals(reply, bytearray(b'U2F_V2'))
-    self.assertEquals(mock_transport.SendMsgBytes.call_count, 1)
+    self.assertEqual(reply, bytearray(b'U2F_V2'))
+    self.assertEqual(mock_transport.SendMsgBytes.call_count, 1)
     (sent_msg,), _ = mock_transport.SendMsgBytes.call_args
-    self.assertEquals(sent_msg, bytearray(
+    self.assertEqual(sent_msg, bytearray(
         [0x00, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00]))
 
   def testVersionFallback(self):
@@ -101,17 +101,17 @@ class HardwareTest(unittest.TestCase):
         bytearray(b'U2F_V2\x90\x00')]
 
     reply = sk.CmdVersion()
-    self.assertEquals(reply, bytearray(b'U2F_V2'))
-    self.assertEquals(mock_transport.SendMsgBytes.call_count, 2)
+    self.assertEqual(reply, bytearray(b'U2F_V2'))
+    self.assertEqual(mock_transport.SendMsgBytes.call_count, 2)
     (sent_msg,), _ = mock_transport.SendMsgBytes.call_args_list[0]
-    self.assertEquals(len(sent_msg), 7)
-    self.assertEquals(sent_msg[0:4], bytearray([0x00, 0x03, 0x00, 0x00]))
-    self.assertEquals(sent_msg[4:7], bytearray([0x00, 0x00, 0x00]))  # Le
+    self.assertEqual(len(sent_msg), 7)
+    self.assertEqual(sent_msg[0:4], bytearray([0x00, 0x03, 0x00, 0x00]))
+    self.assertEqual(sent_msg[4:7], bytearray([0x00, 0x00, 0x00]))  # Le
     (sent_msg,), _ = mock_transport.SendMsgBytes.call_args_list[1]
-    self.assertEquals(len(sent_msg), 9)
-    self.assertEquals(sent_msg[0:4], bytearray([0x00, 0x03, 0x00, 0x00]))
-    self.assertEquals(sent_msg[4:7], bytearray([0x00, 0x00, 0x00]))  # Lc
-    self.assertEquals(sent_msg[7:9], bytearray([0x00, 0x00]))  # Le
+    self.assertEqual(len(sent_msg), 9)
+    self.assertEqual(sent_msg[0:4], bytearray([0x00, 0x03, 0x00, 0x00]))
+    self.assertEqual(sent_msg[4:7], bytearray([0x00, 0x00, 0x00]))  # Lc
+    self.assertEqual(sent_msg[7:9], bytearray([0x00, 0x00]))  # Le
 
   def testVersionErrors(self):
     mock_transport = mock.MagicMock()
@@ -120,7 +120,7 @@ class HardwareTest(unittest.TestCase):
     mock_transport.SendMsgBytes.return_value = bytearray([0xfa, 0x05])
 
     self.assertRaises(errors.ApduError, sk.CmdVersion)
-    self.assertEquals(mock_transport.SendMsgBytes.call_count, 1)
+    self.assertEqual(mock_transport.SendMsgBytes.call_count, 1)
 
   def testAuthenticateSuccess(self):
     mock_transport = mock.MagicMock()
@@ -134,11 +134,11 @@ class HardwareTest(unittest.TestCase):
         [0x01, 0x02, 0x90, 0x00])
 
     reply = sk.CmdAuthenticate(challenge_param, app_param, key_handle)
-    self.assertEquals(reply, bytearray([0x01, 0x02]))
-    self.assertEquals(mock_transport.SendMsgBytes.call_count, 1)
+    self.assertEqual(reply, bytearray([0x01, 0x02]))
+    self.assertEqual(mock_transport.SendMsgBytes.call_count, 1)
     (sent_msg,), _ = mock_transport.SendMsgBytes.call_args
-    self.assertEquals(sent_msg[0:4], bytearray([0x00, 0x02, 0x03, 0x00]))
-    self.assertEquals(
+    self.assertEqual(sent_msg[0:4], bytearray([0x00, 0x02, 0x03, 0x00]))
+    self.assertEqual(
         sent_msg[7:-2],
         bytearray(challenge_param + app_param + bytearray([4, 1, 2, 3, 4])))
 
@@ -157,11 +157,11 @@ class HardwareTest(unittest.TestCase):
                                app_param,
                                key_handle,
                                check_only=True)
-    self.assertEquals(reply, bytearray([0x01, 0x02]))
-    self.assertEquals(mock_transport.SendMsgBytes.call_count, 1)
+    self.assertEqual(reply, bytearray([0x01, 0x02]))
+    self.assertEqual(mock_transport.SendMsgBytes.call_count, 1)
     (sent_msg,), _ = mock_transport.SendMsgBytes.call_args
-    self.assertEquals(sent_msg[0:4], bytearray([0x00, 0x02, 0x07, 0x00]))
-    self.assertEquals(
+    self.assertEqual(sent_msg[0:4], bytearray([0x00, 0x02, 0x07, 0x00]))
+    self.assertEqual(
         sent_msg[7:-2],
         bytearray(challenge_param + app_param + bytearray([4, 1, 2, 3, 4])))
 
@@ -177,7 +177,7 @@ class HardwareTest(unittest.TestCase):
 
     self.assertRaises(errors.TUPRequiredError, sk.CmdAuthenticate,
                       challenge_param, app_param, key_handle)
-    self.assertEquals(mock_transport.SendMsgBytes.call_count, 1)
+    self.assertEqual(mock_transport.SendMsgBytes.call_count, 1)
 
   def testAuthenticateInvalidKeyHandle(self):
     mock_transport = mock.MagicMock()
@@ -191,7 +191,7 @@ class HardwareTest(unittest.TestCase):
 
     self.assertRaises(errors.InvalidKeyHandleError, sk.CmdAuthenticate,
                       challenge_param, app_param, key_handle)
-    self.assertEquals(mock_transport.SendMsgBytes.call_count, 1)
+    self.assertEqual(mock_transport.SendMsgBytes.call_count, 1)
 
 
 if __name__ == '__main__':
