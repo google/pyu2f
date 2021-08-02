@@ -122,44 +122,44 @@ class CustomAuthenticatorTest(unittest.TestCase):
 
     self.assertTrue(mock_communicate_method.called)
     communicate_args = mock_communicate_method.call_args[0]
-    self.assertEquals(len(communicate_args), 1,
-                      'communicate() should have been called with two args')
+    self.assertEqual(len(communicate_args), 1,
+                     'communicate() should have been called with two args')
 
     communicate_stdin = communicate_args[0]
     communicate_json_len_le = communicate_stdin[:4]
     communicate_json_len = struct.unpack('<I', communicate_json_len_le)[0]
     communicate_json = communicate_stdin[4:]
-    self.assertEquals(len(communicate_json), communicate_json_len,
-                      'communicate() should have been called with correct'
-                      'length field')
+    self.assertEqual(len(communicate_json), communicate_json_len,
+                     'communicate() should have been called with correct'
+                     'length field')
 
     communicate_dict = json.loads(communicate_json.decode("utf8"))
-    self.assertEquals(communicate_dict.get('type'), 'sign_helper_request')
-    self.assertEquals(communicate_dict.get('timeoutSeconds'), 5)
-    self.assertEquals(communicate_dict.get('localAlways'), True)
+    self.assertEqual(communicate_dict.get('type'), 'sign_helper_request')
+    self.assertEqual(communicate_dict.get('timeoutSeconds'), 5)
+    self.assertEqual(communicate_dict.get('localAlways'), True)
     challenges = communicate_dict.get('signData')
 
     # Validate Challenge portion of plugin request
     self.assertIsNotNone(challenges)
-    self.assertEquals(len(challenges), 1)
+    self.assertEqual(len(challenges), 1)
     challenge = challenges[0]
-    self.assertEquals(challenge.get('appIdHash'),
-                      SIGN_SUCCESS['app_id_hash_encoded'])
-    self.assertEquals(challenge.get('challengeHash'),
-                      SIGN_SUCCESS['challenge_hash_encoded'])
-    self.assertEquals(challenge.get('keyHandle'),
-                      SIGN_SUCCESS['key_handle_encoded'])
-    self.assertEquals(challenge.get('version'),
-                      SIGN_SUCCESS['u2f_version'])
+    self.assertEqual(challenge.get('appIdHash'),
+                     SIGN_SUCCESS['app_id_hash_encoded'])
+    self.assertEqual(challenge.get('challengeHash'),
+                     SIGN_SUCCESS['challenge_hash_encoded'])
+    self.assertEqual(challenge.get('keyHandle'),
+                     SIGN_SUCCESS['key_handle_encoded'])
+    self.assertEqual(challenge.get('version'),
+                     SIGN_SUCCESS['u2f_version'])
 
     mock_wait_method.assert_called_with()
 
     # Validate Authenticate() response
-    self.assertEquals(result['applicationId'], SIGN_SUCCESS['app_id'])
-    self.assertEquals(result['clientData'], SIGN_SUCCESS['client_data_encoded'])
-    self.assertEquals(result['keyHandle'], SIGN_SUCCESS['key_handle_encoded'])
-    self.assertEquals(result['signatureData'],
-                      SIGN_SUCCESS['signature_data_encoded'])
+    self.assertEqual(result['applicationId'], SIGN_SUCCESS['app_id'])
+    self.assertEqual(result['clientData'], SIGN_SUCCESS['client_data_encoded'])
+    self.assertEqual(result['keyHandle'], SIGN_SUCCESS['key_handle_encoded'])
+    self.assertEqual(result['signatureData'],
+                     SIGN_SUCCESS['signature_data_encoded'])
 
   @mock.patch.object(customauthenticator.subprocess, 'Popen')
   @mock.patch.object(customauthenticator.os.environ, 'get',
@@ -323,7 +323,7 @@ class CustomAuthenticatorTest(unittest.TestCase):
 
     with self.assertRaises(errors.U2FError) as cm:
       authenticator.Authenticate(SIGN_SUCCESS['app_id'], challenge_data)
-    self.assertEquals(cm.exception.code, errors.U2FError.TIMEOUT)
+    self.assertEqual(cm.exception.code, errors.U2FError.TIMEOUT)
 
   @mock.patch.object(customauthenticator.subprocess, 'Popen')
   @mock.patch.object(customauthenticator.os.environ, 'get',
@@ -369,7 +369,7 @@ class CustomAuthenticatorTest(unittest.TestCase):
 
     with self.assertRaises(errors.U2FError) as cm:
       authenticator.Authenticate(SIGN_SUCCESS['app_id'], challenge_data)
-    self.assertEquals(cm.exception.code, errors.U2FError.DEVICE_INELIGIBLE)
+    self.assertEqual(cm.exception.code, errors.U2FError.DEVICE_INELIGIBLE)
 
 
 if __name__ == '__main__':

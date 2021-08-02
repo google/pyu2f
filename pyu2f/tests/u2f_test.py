@@ -38,11 +38,11 @@ class U2fTest(unittest.TestCase):
     u2f_api = u2f.U2FInterface(mock_sk)
 
     resp = u2f_api.Register('testapp', b'ABCD', [])
-    self.assertEquals(mock_sk.CmdRegister.call_count, 2)
-    self.assertEquals(mock_sk.CmdWink.call_count, 1)
-    self.assertEquals(resp.client_data.raw_server_challenge, b'ABCD')
-    self.assertEquals(resp.client_data.typ, 'navigator.id.finishEnrollment')
-    self.assertEquals(resp.registration_data, 'regdata')
+    self.assertEqual(mock_sk.CmdRegister.call_count, 2)
+    self.assertEqual(mock_sk.CmdWink.call_count, 1)
+    self.assertEqual(resp.client_data.raw_server_challenge, b'ABCD')
+    self.assertEqual(resp.client_data.typ, 'navigator.id.finishEnrollment')
+    self.assertEqual(resp.registration_data, 'regdata')
 
   def testRegisterSuccessWithPreviousKeys(self):
     mock_sk = mock.MagicMock()
@@ -53,15 +53,15 @@ class U2fTest(unittest.TestCase):
     u2f_api = u2f.U2FInterface(mock_sk)
 
     resp = u2f_api.Register('testapp', b'ABCD', [model.RegisteredKey('khA')])
-    self.assertEquals(mock_sk.CmdAuthenticate.call_count, 1)
+    self.assertEqual(mock_sk.CmdAuthenticate.call_count, 1)
     # Should be "Check only"
     self.assertTrue(mock_sk.CmdAuthenticate.call_args[0][3])
 
-    self.assertEquals(mock_sk.CmdRegister.call_count, 2)
-    self.assertEquals(mock_sk.CmdWink.call_count, 1)
-    self.assertEquals(resp.client_data.raw_server_challenge, b'ABCD')
-    self.assertEquals(resp.client_data.typ, 'navigator.id.finishEnrollment')
-    self.assertEquals(resp.registration_data, 'regdata')
+    self.assertEqual(mock_sk.CmdRegister.call_count, 2)
+    self.assertEqual(mock_sk.CmdWink.call_count, 1)
+    self.assertEqual(resp.client_data.raw_server_challenge, b'ABCD')
+    self.assertEqual(resp.client_data.typ, 'navigator.id.finishEnrollment')
+    self.assertEqual(resp.registration_data, 'regdata')
 
   def testRegisterFailAlreadyRegistered(self):
     mock_sk = mock.MagicMock()
@@ -72,14 +72,14 @@ class U2fTest(unittest.TestCase):
 
     with self.assertRaises(errors.U2FError) as cm:
       u2f_api.Register('testapp', b'ABCD', [model.RegisteredKey('khA')])
-    self.assertEquals(cm.exception.code, errors.U2FError.DEVICE_INELIGIBLE)
+    self.assertEqual(cm.exception.code, errors.U2FError.DEVICE_INELIGIBLE)
 
-    self.assertEquals(mock_sk.CmdAuthenticate.call_count, 1)
+    self.assertEqual(mock_sk.CmdAuthenticate.call_count, 1)
     # Should be "Check only"
     self.assertTrue(mock_sk.CmdAuthenticate.call_args[0][3])
 
-    self.assertEquals(mock_sk.CmdRegister.call_count, 0)
-    self.assertEquals(mock_sk.CmdWink.call_count, 0)
+    self.assertEqual(mock_sk.CmdRegister.call_count, 0)
+    self.assertEqual(mock_sk.CmdWink.call_count, 0)
 
   def testRegisterTimeout(self):
     mock_sk = mock.MagicMock()
@@ -91,9 +91,9 @@ class U2fTest(unittest.TestCase):
     with mock.patch.object(u2f, 'time') as _:
       with self.assertRaises(errors.U2FError) as cm:
         u2f_api.Register('testapp', b'ABCD', [])
-    self.assertEquals(cm.exception.code, errors.U2FError.TIMEOUT)
-    self.assertEquals(mock_sk.CmdRegister.call_count, 30)
-    self.assertEquals(mock_sk.CmdWink.call_count, 30)
+    self.assertEqual(cm.exception.code, errors.U2FError.TIMEOUT)
+    self.assertEqual(mock_sk.CmdRegister.call_count, 30)
+    self.assertEqual(mock_sk.CmdWink.call_count, 30)
 
   def testRegisterError(self):
     mock_sk = mock.MagicMock()
@@ -103,12 +103,12 @@ class U2fTest(unittest.TestCase):
 
     with self.assertRaises(errors.U2FError) as cm:
       u2f_api.Register('testapp', b'ABCD', [])
-    self.assertEquals(cm.exception.code, errors.U2FError.BAD_REQUEST)
-    self.assertEquals(cm.exception.cause.sw1, 0xff)
-    self.assertEquals(cm.exception.cause.sw2, 0xff)
+    self.assertEqual(cm.exception.code, errors.U2FError.BAD_REQUEST)
+    self.assertEqual(cm.exception.cause.sw1, 0xff)
+    self.assertEqual(cm.exception.cause.sw2, 0xff)
 
-    self.assertEquals(mock_sk.CmdRegister.call_count, 1)
-    self.assertEquals(mock_sk.CmdWink.call_count, 0)
+    self.assertEqual(mock_sk.CmdRegister.call_count, 1)
+    self.assertEqual(mock_sk.CmdWink.call_count, 0)
 
   def testAuthenticateSuccessWithTUP(self):
     mock_sk = mock.MagicMock()
@@ -119,12 +119,12 @@ class U2fTest(unittest.TestCase):
 
     resp = u2f_api.Authenticate('testapp', b'ABCD',
                                 [model.RegisteredKey('khA')])
-    self.assertEquals(mock_sk.CmdAuthenticate.call_count, 2)
-    self.assertEquals(mock_sk.CmdWink.call_count, 1)
-    self.assertEquals(resp.key_handle, 'khA')
-    self.assertEquals(resp.client_data.raw_server_challenge, b'ABCD')
-    self.assertEquals(resp.client_data.typ, 'navigator.id.getAssertion')
-    self.assertEquals(resp.signature_data, 'signature')
+    self.assertEqual(mock_sk.CmdAuthenticate.call_count, 2)
+    self.assertEqual(mock_sk.CmdWink.call_count, 1)
+    self.assertEqual(resp.key_handle, 'khA')
+    self.assertEqual(resp.client_data.raw_server_challenge, b'ABCD')
+    self.assertEqual(resp.client_data.typ, 'navigator.id.getAssertion')
+    self.assertEqual(resp.signature_data, 'signature')
 
   def testAuthenticateSuccessSkipInvalidKey(self):
     mock_sk = mock.MagicMock()
@@ -137,12 +137,12 @@ class U2fTest(unittest.TestCase):
     resp = u2f_api.Authenticate(
         'testapp', b'ABCD',
         [model.RegisteredKey('khA'), model.RegisteredKey('khB')])
-    self.assertEquals(mock_sk.CmdAuthenticate.call_count, 2)
-    self.assertEquals(mock_sk.CmdWink.call_count, 0)
-    self.assertEquals(resp.key_handle, 'khB')
-    self.assertEquals(resp.client_data.raw_server_challenge, b'ABCD')
-    self.assertEquals(resp.client_data.typ, 'navigator.id.getAssertion')
-    self.assertEquals(resp.signature_data, 'signature')
+    self.assertEqual(mock_sk.CmdAuthenticate.call_count, 2)
+    self.assertEqual(mock_sk.CmdWink.call_count, 0)
+    self.assertEqual(resp.key_handle, 'khB')
+    self.assertEqual(resp.client_data.raw_server_challenge, b'ABCD')
+    self.assertEqual(resp.client_data.typ, 'navigator.id.getAssertion')
+    self.assertEqual(resp.signature_data, 'signature')
 
   def testAuthenticateSuccessSkipInvalidVersion(self):
     mock_sk = mock.MagicMock()
@@ -156,12 +156,12 @@ class U2fTest(unittest.TestCase):
                                 [model.RegisteredKey('khA',
                                                      version='U2F_V3'),
                                  model.RegisteredKey('khB')])
-    self.assertEquals(mock_sk.CmdAuthenticate.call_count, 1)
-    self.assertEquals(mock_sk.CmdWink.call_count, 0)
-    self.assertEquals(resp.key_handle, 'khB')
-    self.assertEquals(resp.client_data.raw_server_challenge, b'ABCD')
-    self.assertEquals(resp.client_data.typ, 'navigator.id.getAssertion')
-    self.assertEquals(resp.signature_data, 'signature')
+    self.assertEqual(mock_sk.CmdAuthenticate.call_count, 1)
+    self.assertEqual(mock_sk.CmdWink.call_count, 0)
+    self.assertEqual(resp.key_handle, 'khB')
+    self.assertEqual(resp.client_data.raw_server_challenge, b'ABCD')
+    self.assertEqual(resp.client_data.typ, 'navigator.id.getAssertion')
+    self.assertEqual(resp.signature_data, 'signature')
 
   def testAuthenticateTimeout(self):
     mock_sk = mock.MagicMock()
@@ -173,9 +173,9 @@ class U2fTest(unittest.TestCase):
     with mock.patch.object(u2f, 'time') as _:
       with self.assertRaises(errors.U2FError) as cm:
         u2f_api.Authenticate('testapp', b'ABCD', [model.RegisteredKey('khA')])
-    self.assertEquals(cm.exception.code, errors.U2FError.TIMEOUT)
-    self.assertEquals(mock_sk.CmdAuthenticate.call_count, 30)
-    self.assertEquals(mock_sk.CmdWink.call_count, 30)
+    self.assertEqual(cm.exception.code, errors.U2FError.TIMEOUT)
+    self.assertEqual(mock_sk.CmdAuthenticate.call_count, 30)
+    self.assertEqual(mock_sk.CmdWink.call_count, 30)
 
   def testAuthenticateAllKeysInvalid(self):
     mock_sk = mock.MagicMock()
@@ -187,7 +187,7 @@ class U2fTest(unittest.TestCase):
       u2f_api.Authenticate('testapp', b'ABCD',
                            [model.RegisteredKey('khA'),
                             model.RegisteredKey('khB')])
-    self.assertEquals(cm.exception.code, errors.U2FError.DEVICE_INELIGIBLE)
+    self.assertEqual(cm.exception.code, errors.U2FError.DEVICE_INELIGIBLE)
 
     u2f_api = u2f.U2FInterface(mock_sk)
 
@@ -199,12 +199,12 @@ class U2fTest(unittest.TestCase):
 
     with self.assertRaises(errors.U2FError) as cm:
       u2f_api.Authenticate('testapp', b'ABCD', [model.RegisteredKey('khA')])
-    self.assertEquals(cm.exception.code, errors.U2FError.BAD_REQUEST)
-    self.assertEquals(cm.exception.cause.sw1, 0xff)
-    self.assertEquals(cm.exception.cause.sw2, 0xff)
+    self.assertEqual(cm.exception.code, errors.U2FError.BAD_REQUEST)
+    self.assertEqual(cm.exception.cause.sw1, 0xff)
+    self.assertEqual(cm.exception.cause.sw2, 0xff)
 
-    self.assertEquals(mock_sk.CmdAuthenticate.call_count, 1)
-    self.assertEquals(mock_sk.CmdWink.call_count, 0)
+    self.assertEqual(mock_sk.CmdAuthenticate.call_count, 1)
+    self.assertEqual(mock_sk.CmdWink.call_count, 0)
 
 
 if __name__ == '__main__':
