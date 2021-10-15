@@ -129,8 +129,8 @@ class TransportTest(unittest.TestCase):
     # the second will succeed on the second retry.
     fake_hid_dev.SetChannelBusyCount(3)
     with mock.patch.object(hidtransport, 'time') as _:
-      self.assertRaisesRegexp(errors.HidError, '^Device Busy', t.SendMsgBytes,
-                              [0x00, 0x01, 0x00, 0x00])
+      self.assertRaisesRegex(errors.HidError, '^Device Busy', t.SendMsgBytes,
+                             [0x00, 0x01, 0x00, 0x00])
 
       reply = t.SendMsgBytes([0x00, 0x01, 0x00, 0x00])
       self.assertEqual(reply, bytearray([0x01, 0x90, 0x00]))
