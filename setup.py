@@ -33,7 +33,7 @@ setuptools.setup(
                      'interacting with a U2F device over USB.',
     url='https://github.com/google/pyu2f/',
     author='Google Inc.',
-    author_email='pyu2f-team@google.com',
+    author_email='google-pyu2f@google.com',
     # Contained modules and scripts.
     packages=setuptools.find_packages(exclude=["pyu2f.tests", "pyu2f.tests.*"]),
     install_requires=[
