@@ -174,7 +174,7 @@ if sys.platform.startswith('darwin'):
                                          ctypes.POINTER(ctypes.c_uint8),
                                          CF_INDEX]
 else:
-  logger.warn('Not running on MacOS')
+  logger.warning('Not running on MacOS')
 
 
 def CFStr(s):
