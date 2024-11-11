@@ -14,19 +14,13 @@
 
 """Tests for pyu2f.hidtransport."""
 
-from six.moves import range
-import sys
-
-import mock
+import range
+import unittest
+from unittest import mock
 
 from pyu2f import errors
 from pyu2f import hidtransport
 from pyu2f.tests.lib import util
-
-if sys.version_info[:2] < (2, 7):
-  import unittest2 as unittest  # pylint: disable=g-import-not-at-top
-else:
-  import unittest  # pylint: disable=g-import-not-at-top
 
 
 def MakeKeyboard(path, usage):
