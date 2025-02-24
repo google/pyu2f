@@ -14,16 +14,11 @@
 
 """Tests for pyu2f.apdu."""
 
-from six.moves import range
-import sys
+import range
+import unittest
 
 from pyu2f import apdu
 from pyu2f import errors
-
-if sys.version_info[:2] < (2, 7):
-  import unittest2 as unittest  # pylint: disable=g-import-not-at-top
-else:
-  import unittest  # pylint: disable=g-import-not-at-top
 
 
 class ApduTest(unittest.TestCase):

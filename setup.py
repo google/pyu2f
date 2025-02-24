@@ -37,12 +37,9 @@ setuptools.setup(
     # Contained modules and scripts.
     packages=setuptools.find_packages(exclude=["pyu2f.tests", "pyu2f.tests.*"]),
     install_requires=[
-        'six',
     ],
     tests_require=[
-        'unittest2>=0.5.1',
         'pyfakefs>=2.4',
-        'mock>=1.0.1',
     ],
     include_package_data=True,
     platforms=["Windows", "Linux", "OS X", "macOS"],
