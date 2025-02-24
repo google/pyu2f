@@ -1,5 +1,9 @@
 # pyu2f
 
+Support for pyu2f library is discontinued, because U2F is an outdated FIDO spec.
+In favor of embracing FIDO2 and more secure protocols, [Yubico/python-fido2](https://github.com/Yubico/python-fido2)
+is recommended, which also has backward compatible support for U2F.
+
 [![Build Status](https://travis-ci.org/google/pyu2f.svg?branch=master)](https://travis-ci.org/google/pyu2f)
 
 pyu2f is a python based U2F host library for Linux, Windows, and MacOS. It
